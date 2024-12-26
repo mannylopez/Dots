@@ -34,11 +34,3 @@ struct CalendarView: View {
 #Preview {
   CalendarView()
 }
-
-extension Int {
-  func toArabicNumeral() -> String {
-    let numberFormatter = NumberFormatter()
-    numberFormatter.locale = Locale(identifier: "ar-EG")
-    return numberFormatter.string(from: NSNumber(value: self)) ?? String(self)
-  }
-}

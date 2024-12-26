@@ -23,3 +23,11 @@ struct DateView: View {
 #Preview {
   DateView(date: 7, nonZero: true)
 }
+
+extension Int {
+  func toArabicNumeral() -> String {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.locale = .init(identifier: "ar-EG")
+    return numberFormatter.string(from: NSNumber(value: self)) ?? String(self)
+  }
+}
