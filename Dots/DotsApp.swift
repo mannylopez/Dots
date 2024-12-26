@@ -6,7 +6,7 @@ import SwiftUI
 struct DotsApp: App {
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      CalendarView()
     }
   }
 }
