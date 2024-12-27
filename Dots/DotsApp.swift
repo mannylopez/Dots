@@ -10,7 +10,9 @@ struct DotsApp: App {
   var body: some Scene {
     WindowGroup {
       // TODO: Refactor this
+      MonthView(utils: utils, month: 11, year: year)
       MonthView(utils: utils, month: month, year: year)
+      MonthView(utils: utils, month: 1, year: year + 1)
     }
   }
 }

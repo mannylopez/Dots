@@ -27,6 +27,7 @@ struct MonthView: View {
   var body: some View {
     Text(monthName)
       .foregroundStyle(.secondary)
+      .padding(.top, 10)
     VStack {
       LazyVGrid(columns: columns) {
         ForEach(["Su", "M", "T", "W", "Th", "F", "Sa"], id: \.self) { day in
@@ -42,7 +43,11 @@ struct MonthView: View {
             .foregroundStyle(.secondary)
         }
         ForEach(days, id: \.self) { day in
-          DateView(date: day, nonZero: true, addBorder: dayToday == day)
+          let date = utils.createDate(year: year, month: month, day: day)
+          DateView(
+            date: day,
+            nonZero: day % 3 != 0,
+            addBorder: utils.isToday(date: date))
         }
       }
     }
@@ -62,7 +67,7 @@ struct MonthView: View {
 
 #Preview {
   let utils = CalendarUtils.shared
-  let month = 2
+  let month = 12
   let year = 2024
   return MonthView(utils: utils, month: month, year: year)
 }

@@ -3,10 +3,8 @@
 import Foundation
 
 final class CalendarUtils {
-  static let shared = CalendarUtils()
 
-  private let calendar: Calendar
-  private let dateFormatter: DateFormatter
+  // MARK: Lifecycle
 
   init(
     calendar: Calendar = CalendarConfig.calendar,
@@ -15,6 +13,10 @@ final class CalendarUtils {
     self.calendar = calendar
     self.dateFormatter = dateFormatter
   }
+
+  // MARK: Internal
+
+  static let shared = CalendarUtils()
 
   // TODO: Refactor this
   func daysInMonth(month: Int, year: Int) -> Range<Int> {
@@ -41,7 +43,7 @@ final class CalendarUtils {
   }
 
   func dayToday() -> Int {
-    return calendar.component(.day, from: Date())
+    calendar.component(.day, from: Date())
   }
 
   func monthName(month: Int) -> String {
@@ -54,4 +56,26 @@ final class CalendarUtils {
     }
     return dateFormatter.string(from: date)
   }
+
+  func isToday(date: Date) -> Bool {
+    calendar.isDateInToday(date)
+  }
+
+  func createDate(year: Int, month: Int, day: Int) -> Date {
+    var components = DateComponents()
+    components.year = year
+    components.month = month
+    components.day = day
+    guard let date = calendar.date(from: components) else {
+      // TODO: Refactor this
+      fatalError()
+    }
+    return date
+  }
+
+  // MARK: Private
+
+  private let calendar: Calendar
+  private let dateFormatter: DateFormatter
+
 }
