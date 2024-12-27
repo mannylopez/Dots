@@ -5,10 +5,23 @@ import SwiftUI
 // MARK: - MonthView
 
 struct MonthView: View {
-  let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
-  let days: Range<Int>
-  let startOffset: Int
-  let dayToday: Int
+
+  // MARK: Lifecycle
+
+  init(
+    utils: CalendarUtils,
+    month: Int,
+    year: Int)
+  {
+    self.utils = utils
+    self.month = month
+    self.year = year
+    days = utils.daysInMonth(month: month, year: year)
+    startOffset = utils.firstDayOfMonth(month: month, year: year)
+    dayToday = utils.dayToday()
+  }
+
+  // MARK: Internal
 
   var body: some View {
     VStack {
@@ -31,14 +44,22 @@ struct MonthView: View {
       }
     }
   }
+
+  // MARK: Private
+
+  private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
+  private let utils: CalendarUtils
+  private let month: Int
+  private let year: Int
+  private let days: Range<Int>
+  private let startOffset: Int
+  private let dayToday: Int
+
 }
 
 #Preview {
   let utils = CalendarUtils.shared
   let month = 2
   let year = 2024
-  return MonthView(
-    days: utils.daysInMonth(month: month, year: year),
-    startOffset: utils.firstDayOfMonth(month: month, year: year),
-    dayToday: utils.dayToday())
+  return MonthView(utils: utils, month: month, year: year)
 }

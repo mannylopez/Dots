@@ -10,10 +10,7 @@ struct DotsApp: App {
   var body: some Scene {
     WindowGroup {
       // TODO: Refactor this
-      MonthView(
-        days: utils.daysInMonth(month: month, year: year),
-        startOffset: utils.firstDayOfMonth(month: month, year: year),
-        dayToday: utils.dayToday())
+      MonthView(utils: utils, month: month, year: year)
     }
   }
 }
