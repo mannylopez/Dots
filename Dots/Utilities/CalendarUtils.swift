@@ -6,9 +6,14 @@ final class CalendarUtils {
   static let shared = CalendarUtils()
 
   private let calendar: Calendar
+  private let dateFormatter: DateFormatter
 
-  init(calendar: Calendar = CalendarConfig.calendar) {
+  init(
+    calendar: Calendar = CalendarConfig.calendar,
+    dateFormatter: DateFormatter = CalendarConfig.dateFormatter)
+  {
     self.calendar = calendar
+    self.dateFormatter = dateFormatter
   }
 
   // TODO: Refactor this
@@ -39,10 +44,14 @@ final class CalendarUtils {
     return calendar.component(.day, from: Date())
   }
 
-  func monthToday() -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.calendar = calendar
-    dateFormatter.setLocalizedDateFormatFromTemplate("MMMM")
-    return dateFormatter.string(from: Date())
+  func monthName(month: Int) -> String {
+    var components = DateComponents()
+    components.month = month
+    components.year = 2024
+    guard let date = calendar.date(from: components) else {
+      // TODO: Refactor this
+      fatalError()
+    }
+    return dateFormatter.string(from: date)
   }
 }

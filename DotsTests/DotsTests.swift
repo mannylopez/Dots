@@ -63,34 +63,34 @@ final class DotsTests: XCTestCase {
     XCTAssertEqual(firstDay, 4) // Thursday
 
     firstDay = utils.firstDayOfMonth(month: 3, year: 2024)
-    XCTAssertEqual(firstDay, 5) // Thursday
+    XCTAssertEqual(firstDay, 5) // Friday
 
     firstDay = utils.firstDayOfMonth(month: 4, year: 2024)
-    XCTAssertEqual(firstDay, 1) // Thursday
+    XCTAssertEqual(firstDay, 1)
 
     firstDay = utils.firstDayOfMonth(month: 5, year: 2024)
-    XCTAssertEqual(firstDay, 3) // Thursday
+    XCTAssertEqual(firstDay, 3)
 
     firstDay = utils.firstDayOfMonth(month: 6, year: 2024)
-    XCTAssertEqual(firstDay, 6) // Thursday
+    XCTAssertEqual(firstDay, 6)
 
     firstDay = utils.firstDayOfMonth(month: 7, year: 2024)
-    XCTAssertEqual(firstDay, 1) // Thursday
+    XCTAssertEqual(firstDay, 1)
 
     firstDay = utils.firstDayOfMonth(month: 8, year: 2024)
-    XCTAssertEqual(firstDay, 4) // Thursday
+    XCTAssertEqual(firstDay, 4)
 
     firstDay = utils.firstDayOfMonth(month: 9, year: 2024)
-    XCTAssertEqual(firstDay, 0) // Thursday
+    XCTAssertEqual(firstDay, 0)
 
     firstDay = utils.firstDayOfMonth(month: 10, year: 2024)
-    XCTAssertEqual(firstDay, 2) // Thursday
+    XCTAssertEqual(firstDay, 2)
 
     firstDay = utils.firstDayOfMonth(month: 11, year: 2024)
-    XCTAssertEqual(firstDay, 5) // Thursday
+    XCTAssertEqual(firstDay, 5)
 
     firstDay = utils.firstDayOfMonth(month: 12, year: 2024)
-    XCTAssertEqual(firstDay, 0) // Thursday
+    XCTAssertEqual(firstDay, 0)
   }
 
   func test_dayToday() {
@@ -98,9 +98,20 @@ final class DotsTests: XCTestCase {
     XCTAssertEqual(utils.dayToday(), 26)
   }
 
-  func test_monthToday() {
+  func test_monthName() {
     let utils = CalendarUtils.shared
-    XCTAssertEqual(utils.monthToday(), "December")
+    XCTAssertEqual(utils.monthName(month: 1), "January")
+    XCTAssertEqual(utils.monthName(month: 2), "February")
+    XCTAssertEqual(utils.monthName(month: 3), "March")
+    XCTAssertEqual(utils.monthName(month: 4), "April")
+    XCTAssertEqual(utils.monthName(month: 5), "May")
+    XCTAssertEqual(utils.monthName(month: 6), "June")
+    XCTAssertEqual(utils.monthName(month: 7), "July")
+    XCTAssertEqual(utils.monthName(month: 8), "August")
+    XCTAssertEqual(utils.monthName(month: 9), "September")
+    XCTAssertEqual(utils.monthName(month: 10), "October")
+    XCTAssertEqual(utils.monthName(month: 11), "November")
+    XCTAssertEqual(utils.monthName(month: 12), "December")
   }
 
 }

@@ -19,11 +19,14 @@ struct MonthView: View {
     days = utils.daysInMonth(month: month, year: year)
     startOffset = utils.firstDayOfMonth(month: month, year: year)
     dayToday = utils.dayToday()
+    monthName = utils.monthName(month: month)
   }
 
   // MARK: Internal
 
   var body: some View {
+    Text(monthName)
+      .foregroundStyle(.secondary)
     VStack {
       LazyVGrid(columns: columns) {
         ForEach(["Su", "M", "T", "W", "Th", "F", "Sa"], id: \.self) { day in
@@ -54,7 +57,7 @@ struct MonthView: View {
   private let days: Range<Int>
   private let startOffset: Int
   private let dayToday: Int
-
+  private let monthName: String
 }
 
 #Preview {
