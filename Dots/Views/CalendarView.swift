@@ -6,8 +6,8 @@ import SwiftUI
 
 struct CalendarView: View {
   let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
-  let days = 1...31
-  let startOffset = 5
+  let days:Range<Int>
+  let startOffset: Int
 
   var body: some View {
     VStack {
@@ -21,7 +21,8 @@ struct CalendarView: View {
 
       LazyVGrid(columns: columns) {
         ForEach(0..<startOffset, id: \.self) { _ in
-          Text("·")
+          Text("")
+            .foregroundStyle(.secondary)
         }
         ForEach(days, id: \.self) { day in
           DateView(date: day, nonZero: true)
@@ -32,5 +33,10 @@ struct CalendarView: View {
 }
 
 #Preview {
-  CalendarView()
+  let utils = CalendarUtils.shared
+  let month = 2
+  let year = 2024
+  CalendarView(
+    days: utils.daysInMonth(month: month, year: year),
+    startOffset: utils.firstDayOfMonth(month: month, year: year))
 }
