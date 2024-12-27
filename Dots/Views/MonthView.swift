@@ -2,12 +2,13 @@
 
 import SwiftUI
 
-// MARK: - CalendarView
+// MARK: - MonthView
 
-struct CalendarView: View {
+struct MonthView: View {
   let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
-  let days:Range<Int>
+  let days: Range<Int>
   let startOffset: Int
+  let dayToday: Int
 
   var body: some View {
     VStack {
@@ -25,7 +26,7 @@ struct CalendarView: View {
             .foregroundStyle(.secondary)
         }
         ForEach(days, id: \.self) { day in
-          DateView(date: day, nonZero: true)
+          DateView(date: day, nonZero: true, addBorder: dayToday == day)
         }
       }
     }
@@ -36,7 +37,8 @@ struct CalendarView: View {
   let utils = CalendarUtils.shared
   let month = 2
   let year = 2024
-  CalendarView(
+  return MonthView(
     days: utils.daysInMonth(month: month, year: year),
-    startOffset: utils.firstDayOfMonth(month: month, year: year))
+    startOffset: utils.firstDayOfMonth(month: month, year: year),
+    dayToday: utils.dayToday())
 }

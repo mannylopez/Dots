@@ -34,4 +34,15 @@ final class CalendarUtils {
     }
     return calendar.component(.weekday, from: date) - 1
   }
+
+  func dayToday() -> Int {
+    return calendar.component(.day, from: Date())
+  }
+
+  func monthToday() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.calendar = calendar
+    dateFormatter.setLocalizedDateFormatFromTemplate("MMMM")
+    return dateFormatter.string(from: Date())
+  }
 }

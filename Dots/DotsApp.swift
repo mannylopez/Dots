@@ -4,15 +4,16 @@ import SwiftUI
 
 @main
 struct DotsApp: App {
-  let month = 3
+  let month = 12
   let year = 2024
   let utils = CalendarUtils.shared
   var body: some Scene {
     WindowGroup {
       // TODO: Refactor this
-      CalendarView(
+      MonthView(
         days: utils.daysInMonth(month: month, year: year),
-        startOffset: utils.firstDayOfMonth(month: month, year: year))
+        startOffset: utils.firstDayOfMonth(month: month, year: year),
+        dayToday: utils.dayToday())
     }
   }
 }
