@@ -9,20 +9,16 @@ struct MonthView: View {
   // MARK: Lifecycle
 
   init(
-    utils: CalendarUtils,
     month: Int,
     year: Int)
   {
-    self.utils = utils
     self.month = month
     self.year = year
-    days = utils.daysInMonth(month: month, year: year)
-    startOffset = utils.firstDayOfMonth(month: month, year: year)
-    dayToday = utils.dayToday()
-    monthName = utils.monthName(month: month)
   }
 
   // MARK: Internal
+
+  @EnvironmentObject var viewModel: HabitViewModel
 
   var body: some View {
     Text(monthName)
@@ -42,12 +38,19 @@ struct MonthView: View {
           Text("")
             .foregroundStyle(.secondary)
         }
+
         ForEach(days, id: \.self) { day in
-          let date = utils.createDate(year: year, month: month, day: day)
+          let date = createDate(using: day)
+          let isNonZero = isNonZero(date: date)
+          // TODO: Refactor this
+          let _ = print(viewModel.habit.nonZeroDates)
           DateView(
             date: day,
-            nonZero: day % 3 != 0,
-            addBorder: utils.isToday(date: date))
+            nonZero: isNonZero,
+            addBorder: isToday(date: date))
+            .onTapGesture {
+              viewModel.toggleHabit(date: date)
+            }
         }
       }
     }
@@ -56,18 +59,45 @@ struct MonthView: View {
   // MARK: Private
 
   private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
-  private let utils: CalendarUtils
   private let month: Int
   private let year: Int
-  private let days: Range<Int>
-  private let startOffset: Int
-  private let dayToday: Int
-  private let monthName: String
+
+  private var days: Range<Int> {
+    viewModel.utils.daysInMonth(month: month, year: year)
+  }
+
+  private var startOffset: Int {
+    viewModel.utils.firstDayOfMonth(month: month, year: year)
+  }
+
+  private var dayToday: Int {
+    viewModel.utils.dayToday()
+  }
+
+  private var monthName: String {
+    viewModel.utils.monthName(month: month)
+  }
+
+  private func createDate(using day: Int) -> Date {
+    viewModel.utils.createDate(year: year, month: month, day: day)
+  }
+
+  private func isNonZero(date: Date) -> Bool {
+    viewModel.habit.isNonZero(date: date)
+  }
+
+  private func isToday(date: Date) -> Bool {
+    viewModel.utils.isToday(date: date)
+  }
+
 }
 
-#Preview {
-  let utils = CalendarUtils.shared
+ #Preview {
   let month = 12
   let year = 2024
-  return MonthView(utils: utils, month: month, year: year)
-}
+   let habit = Habit(name: "Stretch", nonZeroDates: Set(arrayLiteral: Date()))
+   let viewModel = HabitViewModel(habit: habit)
+
+  return MonthView(month: month, year: year)
+     .environmentObject(viewModel)
+ }

@@ -57,6 +57,14 @@ final class CalendarUtils {
     return dateFormatter.string(from: date)
   }
 
+  func month(for date: Date) -> Int {
+    calendar.component(.month, from: date)
+  }
+
+  func year(for date: Date) -> Int {
+    calendar.component(.year, from: date)
+  }
+
   func isToday(date: Date) -> Bool {
     calendar.isDateInToday(date)
   }

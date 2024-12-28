@@ -6,13 +6,19 @@ import SwiftUI
 struct DotsApp: App {
   let month = 12
   let year = 2024
-  let utils = CalendarUtils.shared
+
+  // TODO: Refactor this
+  @StateObject private var viewModel = HabitViewModel(habit: Habit(name: "Stretch", nonZeroDates: Set<Date>()))
+
   var body: some Scene {
     WindowGroup {
       // TODO: Refactor this
-      MonthView(utils: utils, month: 11, year: year)
-      MonthView(utils: utils, month: month, year: year)
-      MonthView(utils: utils, month: 1, year: year + 1)
+      VStack {
+        MonthView(month: month - 1, year: year)
+        MonthView(month: month, year: year)
+        MonthView(month: month + 1, year: year)
+      }
+      .environmentObject(viewModel)
     }
   }
 }

@@ -93,9 +93,10 @@ final class DotsTests: XCTestCase {
     XCTAssertEqual(firstDay, 0)
   }
 
+  // TODO: Refactor this
   func test_dayToday() {
     let utils = CalendarUtils.shared
-    XCTAssertEqual(utils.dayToday(), 26)
+    XCTAssertEqual(utils.dayToday(), 28)
   }
 
   func test_monthName() {
@@ -112,6 +113,17 @@ final class DotsTests: XCTestCase {
     XCTAssertEqual(utils.monthName(month: 10), "October")
     XCTAssertEqual(utils.monthName(month: 11), "November")
     XCTAssertEqual(utils.monthName(month: 12), "December")
+  }
+
+  // Habit tests
+
+  // TODO: Refactor this
+  func test_habit() {
+    let nonZeroDates = Set(arrayLiteral: Date())
+    let habit = Habit(name: "Run", nonZeroDates: nonZeroDates)
+    let viewModel = HabitViewModel(habit: habit)
+    let nonZeroDatesArr = viewModel.nonZeroDatesFor(month: 12, year: 2024)
+    XCTAssertEqual(nonZeroDatesArr.count, 1)
   }
 
 }

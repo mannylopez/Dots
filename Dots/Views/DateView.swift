@@ -13,8 +13,8 @@ struct DateView: View {
     ZStack {
       if nonZero {
         Circle()
-          .foregroundStyle(.green.opacity(0.6))
-          .fixedSize()
+          .foregroundStyle(.green.opacity(0.4))
+          .frame(width: 20)
       }
       Text(date.toArabicNumeral())
         .frame(width: 25, height: 25)
