@@ -15,7 +15,7 @@ struct DotsApp: App {
       CalendarView(
         currentMonth: viewModel.utils.month(for: today),
         currentYear: viewModel.utils.year(for: today))
-      .environmentObject(viewModel)
+        .environmentObject(viewModel)
     }
   }
 }

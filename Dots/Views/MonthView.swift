@@ -90,12 +90,12 @@ struct MonthView: View {
 
 }
 
- #Preview {
+#Preview {
   let month = 12
   let year = 2024
-   let habit = Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))
-   let viewModel = HabitViewModel(habit: habit)
+  let habit = Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))
+  let viewModel = HabitViewModel(habit: habit)
 
   return MonthView(month: month, year: year)
-     .environmentObject(viewModel)
- }
+    .environmentObject(viewModel)
+}
