@@ -18,26 +18,17 @@ struct CalendarView: View {
 
   // MARK: Internal
 
-  struct MonthYear: Hashable {
-    let month: Int
-    let year: Int
-  }
-
-  let habitID: UUID
-  let currentMonth: Int
-  let currentYear: Int
-
   var body: some View {
     GeometryReader { geometry in
       ScrollView(.vertical) {
         ScrollViewReader { proxy in
-
-          ForEach(years, id: \.self) { year in
-            ForEach(months, id: \.self) { month in
-              MonthView(habitID: habitID, month: month, year: year)
-                .id(MonthYear(month: month, year: year))
-                .offset(y: -(geometry.size.height / 8))
-            }
+          ForEach(monthYears, id: \.self) { monthYear in
+            MonthView(
+              habitID: habitID,
+              month: monthYear.month,
+              year: monthYear.year)
+              .id(monthYear)
+              .offset(y: -(geometry.size.height / 8))
           }
           .onAppear {
             proxy.scrollTo(MonthYear(month: currentMonth, year: currentYear), anchor: .center)
@@ -50,9 +41,26 @@ struct CalendarView: View {
 
   // MARK: Private
 
+  private struct MonthYear: Hashable {
+    let month: Int
+    let year: Int
+  }
+
+  private let habitID: UUID
+  private let currentMonth: Int
+  private let currentYear: Int
+
   private let months = 1..<13
   // TODO: Refactor this. What years to show and how to send them in?
   private let years = [2024, 2025]
+
+  private var monthYears: [MonthYear] {
+    years.flatMap { year in
+      months.map { month in
+        MonthYear(month: month, year: year)
+      }
+    }
+  }
 
 }
 
