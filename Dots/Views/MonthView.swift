@@ -9,9 +9,11 @@ struct MonthView: View {
   // MARK: Lifecycle
 
   init(
+    habitID: UUID,
     month: Int,
     year: Int)
   {
+    self.habitID = habitID
     self.month = month
     self.year = year
   }
@@ -47,7 +49,7 @@ struct MonthView: View {
             isCompleted: isCompleted,
             addBorder: isToday(date: date))
             .onTapGesture {
-              viewModel.toggleHabit(date: date)
+              viewModel.toggleHabit(habitID: habitID, date: date)
             }
         }
       }
@@ -57,6 +59,7 @@ struct MonthView: View {
   // MARK: Private
 
   private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
+  private let habitID: UUID
   private let month: Int
   private let year: Int
 
@@ -81,7 +84,8 @@ struct MonthView: View {
   }
 
   private func isCompleted(date: Date) -> Bool {
-    viewModel.habit.isCompleted(for: date)
+    guard let habit = viewModel.habits[habitID] else { return false }
+    return habit.isCompleted(for: date)
   }
 
   private func isToday(date: Date) -> Bool {
@@ -93,9 +97,12 @@ struct MonthView: View {
 #Preview {
   let month = 12
   let year = 2024
-  let habit = Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))
-  let viewModel = HabitViewModel(habit: habit)
+  let habit = [Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))]
+  let viewModel = HabitViewModel(habits: habit)
 
-  return MonthView(month: month, year: year)
+  MonthView(
+    habitID: viewModel.habits.first.unsafelyUnwrapped.key,
+    month: month,
+    year: year)
     .environmentObject(viewModel)
 }

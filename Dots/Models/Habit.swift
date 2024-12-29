@@ -4,9 +4,20 @@ import Foundation
 
 // MARK: - Habit
 
-struct Habit {
+struct Habit: Identifiable {
+  let id: UUID
   let name: String
   var completedDates: Set<Date>
+
+  init(
+    id: UUID = UUID(),
+    name: String,
+    completedDates: Set<Date>)
+  {
+    self.id = id
+    self.name = name
+    self.completedDates = completedDates
+  }
 
   func isCompleted(for date: Date) -> Bool {
     let calendar = Calendar.current

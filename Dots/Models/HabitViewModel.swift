@@ -8,25 +8,31 @@ class HabitViewModel: ObservableObject {
 
   // MARK: Lifecycle
 
-  init(habit: Habit) {
-    self.habit = habit
+  init(habits: [Habit]) {
+    self.habits = Dictionary(uniqueKeysWithValues: habits.map { ($0.id, $0)})
   }
 
   // MARK: Internal
 
-  @Published var habit: Habit
+  @Published var habits: [UUID: Habit]
+
   let utils = CalendarUtils.shared
 
-  func toggleHabit(date: Date) {
+  func toggleHabit(habitID: UUID, date: Date) {
+    // TODO: Refactor this (fails silently)
+    guard var habit = habits[habitID] else { return }
     if habit.isCompleted(for: date) {
       habit.completedDates.remove(date)
     } else {
       habit.completedDates.insert(date)
     }
+    habits[habitID] = habit
   }
 
-  func completedDatesFor(month: Int, year: Int) -> Set<Date> {
-    habit.completedDates.filter { date in
+  func completedDatesFor(habitID: UUID, month: Int, year: Int) -> Set<Date> {
+    // TODO: Refactor this (fails silently)
+    guard var habit = habits[habitID] else { return [] }
+    return habit.completedDates.filter { date in
       utils.month(for: date) == month && utils.year(for: date) == year
     }
   }
