@@ -21,9 +21,9 @@ struct MonthView: View {
   @EnvironmentObject var viewModel: HabitViewModel
 
   var body: some View {
-    Text(monthName)
+    Text(monthName + " \(year)")
       .foregroundStyle(.secondary)
-      .padding(.top, 10)
+      .padding(.top, 20)
     VStack {
       LazyVGrid(columns: columns) {
         ForEach(["Su", "M", "T", "W", "Th", "F", "Sa"], id: \.self) { day in
@@ -42,8 +42,6 @@ struct MonthView: View {
         ForEach(days, id: \.self) { day in
           let date = createDate(using: day)
           let isNonZero = isNonZero(date: date)
-          // TODO: Refactor this
-          let _ = print(viewModel.habit.nonZeroDates)
           DateView(
             date: day,
             nonZero: isNonZero,
