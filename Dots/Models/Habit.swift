@@ -4,12 +4,23 @@ import Foundation
 
 // MARK: - Habit
 
-struct Habit {
+struct Habit: Identifiable {
+  let id: UUID
   let name: String
-  var nonZeroDates: Set<Date>
+  var completedDates: Set<Date>
 
-  func isNonZero(date: Date) -> Bool {
+  init(
+    id: UUID = UUID(),
+    name: String,
+    completedDates: Set<Date>)
+  {
+    self.id = id
+    self.name = name
+    self.completedDates = completedDates
+  }
+
+  func isCompleted(for date: Date) -> Bool {
     let calendar = Calendar.current
-    return nonZeroDates.contains { calendar.isDate($0, inSameDayAs: date) }
+    return completedDates.contains { calendar.isDate($0, inSameDayAs: date) }
   }
 }

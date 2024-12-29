@@ -9,9 +9,11 @@ struct MonthView: View {
   // MARK: Lifecycle
 
   init(
+    habitID: UUID,
     month: Int,
     year: Int)
   {
+    self.habitID = habitID
     self.month = month
     self.year = year
   }
@@ -41,13 +43,13 @@ struct MonthView: View {
 
         ForEach(days, id: \.self) { day in
           let date = createDate(using: day)
-          let isNonZero = isNonZero(date: date)
+          let isCompleted = isCompleted(date: date)
           DateView(
             date: day,
-            nonZero: isNonZero,
+            isCompleted: isCompleted,
             addBorder: isToday(date: date))
             .onTapGesture {
-              viewModel.toggleHabit(date: date)
+              viewModel.toggleHabit(habitID: habitID, date: date)
             }
         }
       }
@@ -57,6 +59,7 @@ struct MonthView: View {
   // MARK: Private
 
   private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
+  private let habitID: UUID
   private let month: Int
   private let year: Int
 
@@ -80,8 +83,9 @@ struct MonthView: View {
     viewModel.utils.createDate(year: year, month: month, day: day)
   }
 
-  private func isNonZero(date: Date) -> Bool {
-    viewModel.habit.isNonZero(date: date)
+  private func isCompleted(date: Date) -> Bool {
+    guard let habit = viewModel.habits[habitID] else { return false }
+    return habit.isCompleted(for: date)
   }
 
   private func isToday(date: Date) -> Bool {
@@ -90,12 +94,15 @@ struct MonthView: View {
 
 }
 
- #Preview {
+#Preview {
   let month = 12
   let year = 2024
-   let habit = Habit(name: "Stretch", nonZeroDates: Set(arrayLiteral: Date()))
-   let viewModel = HabitViewModel(habit: habit)
+  let habit = [Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))]
+  let viewModel = HabitViewModel(habits: habit)
 
-  return MonthView(month: month, year: year)
-     .environmentObject(viewModel)
- }
+  MonthView(
+    habitID: viewModel.habits.first.unsafelyUnwrapped.key,
+    month: month,
+    year: year)
+    .environmentObject(viewModel)
+}
