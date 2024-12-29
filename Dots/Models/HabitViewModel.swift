@@ -18,15 +18,15 @@ class HabitViewModel: ObservableObject {
   let utils = CalendarUtils.shared
 
   func toggleHabit(date: Date) {
-    if habit.isNonZero(date: date) {
-      habit.nonZeroDates.remove(date)
+    if habit.isCompleted(for: date) {
+      habit.completedDates.remove(date)
     } else {
-      habit.nonZeroDates.insert(date)
+      habit.completedDates.insert(date)
     }
   }
 
-  func nonZeroDatesFor(month: Int, year: Int) -> Set<Date> {
-    habit.nonZeroDates.filter { date in
+  func completedDatesFor(month: Int, year: Int) -> Set<Date> {
+    habit.completedDates.filter { date in
       utils.month(for: date) == month && utils.year(for: date) == year
     }
   }

@@ -51,7 +51,7 @@ struct CalendarView: View {
 }
 
 #Preview {
-  let habit = Habit(name: "Stretch", nonZeroDates: Set(arrayLiteral: Date()))
+  let habit = Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))
   let viewModel = HabitViewModel(habit: habit)
   let today = Date()
 

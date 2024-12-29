@@ -6,10 +6,10 @@ import Foundation
 
 struct Habit {
   let name: String
-  var nonZeroDates: Set<Date>
+  var completedDates: Set<Date>
 
-  func isNonZero(date: Date) -> Bool {
+  func isCompleted(for date: Date) -> Bool {
     let calendar = Calendar.current
-    return nonZeroDates.contains { calendar.isDate($0, inSameDayAs: date) }
+    return completedDates.contains { calendar.isDate($0, inSameDayAs: date) }
   }
 }

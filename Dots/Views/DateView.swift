@@ -6,12 +6,12 @@ import SwiftUI
 
 struct DateView: View {
   let date: Int
-  let nonZero: Bool
+  let isCompleted: Bool
   let addBorder: Bool
 
   var body: some View {
     ZStack {
-      if nonZero {
+      if isCompleted {
         Circle()
           .foregroundStyle(.green.opacity(0.4))
           .frame(width: 20)
@@ -27,7 +27,7 @@ struct DateView: View {
 }
 
 #Preview {
-  DateView(date: 7, nonZero: true, addBorder: true)
+  DateView(date: 7, isCompleted: true, addBorder: true)
 }
 
 extension Int {

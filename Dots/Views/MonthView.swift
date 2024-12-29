@@ -41,10 +41,10 @@ struct MonthView: View {
 
         ForEach(days, id: \.self) { day in
           let date = createDate(using: day)
-          let isNonZero = isNonZero(date: date)
+          let isCompleted = isCompleted(date: date)
           DateView(
             date: day,
-            nonZero: isNonZero,
+            isCompleted: isCompleted,
             addBorder: isToday(date: date))
             .onTapGesture {
               viewModel.toggleHabit(date: date)
@@ -80,8 +80,8 @@ struct MonthView: View {
     viewModel.utils.createDate(year: year, month: month, day: day)
   }
 
-  private func isNonZero(date: Date) -> Bool {
-    viewModel.habit.isNonZero(date: date)
+  private func isCompleted(date: Date) -> Bool {
+    viewModel.habit.isCompleted(for: date)
   }
 
   private func isToday(date: Date) -> Bool {
@@ -93,7 +93,7 @@ struct MonthView: View {
  #Preview {
   let month = 12
   let year = 2024
-   let habit = Habit(name: "Stretch", nonZeroDates: Set(arrayLiteral: Date()))
+   let habit = Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))
    let viewModel = HabitViewModel(habit: habit)
 
   return MonthView(month: month, year: year)

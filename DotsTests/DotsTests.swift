@@ -119,11 +119,11 @@ final class DotsTests: XCTestCase {
 
   // TODO: Refactor this
   func test_habit() {
-    let nonZeroDates = Set(arrayLiteral: Date())
-    let habit = Habit(name: "Run", nonZeroDates: nonZeroDates)
+    let completedDates = Set(arrayLiteral: Date())
+    let habit = Habit(name: "Run", completedDates: completedDates)
     let viewModel = HabitViewModel(habit: habit)
-    let nonZeroDatesArr = viewModel.nonZeroDatesFor(month: 12, year: 2024)
-    XCTAssertEqual(nonZeroDatesArr.count, 1)
+    let completedDatesArr = viewModel.completedDatesFor(month: 12, year: 2024)
+    XCTAssertEqual(completedDatesArr.count, 1)
   }
 
 }
