@@ -7,15 +7,15 @@ struct DotsApp: App {
   let today = Date()
 
   // TODO: Refactor this
-  @StateObject private var viewModel = HabitViewModel(habits: [Habit(name: "Stretch", completedDates: Set<Date>())])
+  @StateObject private var viewModel = HabitViewModel(
+    habits: [
+      Habit(name: "Stretch", completedDates: [Date()]),
+    ])
 
   var body: some Scene {
     WindowGroup {
       // TODO: Refactor this
-      CalendarView(
-        habitID: viewModel.habits.first.unsafelyUnwrapped.key,
-        currentMonth: viewModel.utils.month(for: today),
-        currentYear: viewModel.utils.year(for: today))
+      HabitList()
         .environmentObject(viewModel)
     }
   }
