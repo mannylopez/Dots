@@ -4,8 +4,7 @@ import SwiftUI
 
 @main
 struct DotsApp: App {
-  let month = 12
-  let year = 2024
+  let today = Date()
 
   // TODO: Refactor this
   @StateObject private var viewModel = HabitViewModel(habit: Habit(name: "Stretch", nonZeroDates: Set<Date>()))
@@ -13,11 +12,9 @@ struct DotsApp: App {
   var body: some Scene {
     WindowGroup {
       // TODO: Refactor this
-      VStack {
-        MonthView(month: month - 1, year: year)
-        MonthView(month: month, year: year)
-        MonthView(month: month + 1, year: year)
-      }
+      CalendarView(
+        currentMonth: viewModel.utils.month(for: today),
+        currentYear: viewModel.utils.year(for: today))
       .environmentObject(viewModel)
     }
   }
