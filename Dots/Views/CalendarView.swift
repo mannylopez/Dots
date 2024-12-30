@@ -65,10 +65,8 @@ struct CalendarView: View {
 }
 
 #Preview {
-  let habits = [Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))]
-  let viewModel = HabitViewModel(habits: habits)
+  let viewModel = HabitViewModel()
   let today = Date()
-
   return CalendarView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
     currentMonth: viewModel.utils.month(for: today),

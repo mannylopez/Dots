@@ -97,8 +97,7 @@ struct MonthView: View {
 #Preview {
   let month = 12
   let year = 2024
-  let habit = [Habit(name: "Stretch", completedDates: Set(arrayLiteral: Date()))]
-  let viewModel = HabitViewModel(habits: habit)
+  let viewModel = HabitViewModel()
 
   MonthView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
