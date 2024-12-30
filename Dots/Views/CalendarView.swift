@@ -71,6 +71,27 @@ struct CalendarView: View {
     return (newMonth, newYear)
   }
 
+  private func addMonth(direction: TimeDirection) {
+    guard let referenceMonth = direction == .past ? monthYears.first : monthYears.last else { return }
+    let offset = direction == .past ? -1 : 1
+    let (month, year) = CalendarView.calculateMonth(fromMonth: referenceMonth.month, year: referenceMonth.year, offset: offset)
+    let newMonthYear = MonthYear(month: month, year: year)
+
+    let insertionIndex = direction == .past ? 0 : monthYears.count
+    monthYears.insert(newMonthYear, at: insertionIndex)
+  }
+
+  private func monthToScrollTo() -> Int {
+    currentMonth == 1 ? 12 : currentMonth - 1
+  }
+
+  private func yearToScrollTo() -> Int {
+    currentMonth == 1 ? currentYear - 1 : currentYear
+  }
+
+  // MARK: Views
+
+  @ViewBuilder
   private func monthsGrid(proxy: ScrollViewProxy) -> some View {
     ForEach(monthYears, id: \.self) { monthYear in
       MonthView(
@@ -88,30 +109,13 @@ struct CalendarView: View {
     }
   }
 
+  @ViewBuilder
   private func addMonthButton(direction: TimeDirection) -> some View {
     Button {
       addMonth(direction: direction)
     } label: {
       Text("Load more")
     }
-  }
-
-  private func addMonth(direction: TimeDirection) {
-    guard let referenceMonth = direction == .past ? monthYears.first : monthYears.last else { return }
-    let offset = direction == .past ? -1 : 1
-    let (month, year) = CalendarView.calculateMonth(fromMonth: referenceMonth.month, year: referenceMonth.year, offset: offset)
-    let newMonthYear = MonthYear(month: month, year: year)
-
-    let insertionIndex = direction == .past ? 0 : monthYears.count
-    monthYears.insert(newMonthYear, at: insertionIndex)
-  }
-
-  private func monthToScrollTo() -> Int {
-    currentMonth == 1 ? 12 : currentMonth - 1
-  }
-
-  private func yearToScrollTo() -> Int {
-    currentMonth == 1 ? currentYear - 1 : currentYear
   }
 
 }
