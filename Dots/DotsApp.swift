@@ -7,10 +7,7 @@ struct DotsApp: App {
   let today = Date()
 
   // TODO: Refactor this
-  @StateObject private var viewModel = HabitViewModel(
-    habits: [
-      Habit(name: "Stretch", completedDates: [Date()]),
-    ])
+  @StateObject private var viewModel = HabitViewModel()
 
   var body: some Scene {
     WindowGroup {

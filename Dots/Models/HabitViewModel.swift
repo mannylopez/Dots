@@ -8,7 +8,7 @@ class HabitViewModel: ObservableObject {
 
   // MARK: Lifecycle
 
-  init(habits: [Habit]) {
+  init(habits: [Habit] = SampleHabitsHelper.generate()) {
     self.habits = Dictionary(uniqueKeysWithValues: habits.map { ($0.id, $0)})
   }
 
@@ -31,7 +31,7 @@ class HabitViewModel: ObservableObject {
 
   func completedDatesFor(habitID: UUID, month: Int, year: Int) -> Set<Date> {
     // TODO: Refactor this (fails silently)
-    guard var habit = habits[habitID] else { return [] }
+    guard let habit = habits[habitID] else { return [] }
     return habit.completedDates.filter { date in
       utils.month(for: date) == month && utils.year(for: date) == year
     }

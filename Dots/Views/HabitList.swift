@@ -24,11 +24,7 @@ struct HabitList: View {
 }
 
 #Preview {
-  let habits = [
-    Habit(name: "Pet my dog", completedDates: [Date()]),
-    Habit(name: "Walk around the block", completedDates: [Date()])
-  ]
-  let viewModel = HabitViewModel(habits: habits)
+  let viewModel = HabitViewModel()
   HabitList()
     .environmentObject(viewModel)
 }
