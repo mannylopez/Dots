@@ -19,24 +19,26 @@ struct CalendarView: View {
   // MARK: Internal
 
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView(.vertical) {
-        ScrollViewReader { proxy in
-          ForEach(monthYears, id: \.self) { monthYear in
-            MonthView(
-              habitID: habitID,
-              month: monthYear.month,
-              year: monthYear.year)
-              .id(monthYear)
-              .offset(y: -(geometry.size.height / 8))
-          }
-          .onAppear {
-            proxy.scrollTo(MonthYear(month: currentMonth, year: currentYear), anchor: .center)
-          }
+    ScrollView(.vertical) {
+      ScrollViewReader { proxy in
+
+        ForEach(monthYears, id: \.self) { monthYear in
+          MonthView(
+            habitID: habitID,
+            month: monthYear.month,
+            year: monthYear.year)
+            .id(monthYear)
+        }
+        .onAppear {
+          proxy.scrollTo(
+            MonthYear(
+              month: monthToScrollTo(),
+              year: yearToScrollTo()),
+            anchor: .top)
         }
       }
-      .clipped()
     }
+    .clipped()
   }
 
   // MARK: Private
@@ -60,6 +62,14 @@ struct CalendarView: View {
         MonthYear(month: month, year: year)
       }
     }
+  }
+
+  private func monthToScrollTo() -> Int {
+    currentMonth == 1 ? 12 : currentMonth - 1
+  }
+
+  private func yearToScrollTo() -> Int {
+    currentMonth == 1 ? currentYear - 1 : currentYear
   }
 
 }
