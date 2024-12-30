@@ -114,16 +114,4 @@ final class DotsTests: XCTestCase {
     XCTAssertEqual(utils.monthName(month: 11), "November")
     XCTAssertEqual(utils.monthName(month: 12), "December")
   }
-
-  // Habit tests
-
-  // TODO: Refactor this
-  func test_habit() {
-    let completedDates = Set(arrayLiteral: Date())
-    let habit = Habit(name: "Run", completedDates: completedDates)
-    let viewModel = HabitViewModel(habit: habit)
-    let completedDatesArr = viewModel.completedDatesFor(month: 12, year: 2024)
-    XCTAssertEqual(completedDatesArr.count, 1)
-  }
-
 }

@@ -26,9 +26,14 @@ enum SampleHabitsHelper {
         startMonth: 1 // Started in January
       ),
       createHabit(
-        name: "Evening Walk",
-        consistency: .medium,
+        name: "Evening Walk - low",
+        consistency: .low,
         startMonth: 4 // Started in April
+      ),
+      createHabit(
+        name: "Walk the dog - complete",
+        consistency: .complete,
+        startMonth: 1 // Started in January
       ),
     ]
   }
@@ -40,6 +45,7 @@ enum SampleHabitsHelper {
     case medium // 50% completion rate
     case high // 70% completion rate
     case veryHigh // 90% completion rate
+    case complete
 
     var completionRate: Double {
       switch self {
@@ -47,6 +53,7 @@ enum SampleHabitsHelper {
       case .medium: 0.5
       case .high: 0.7
       case .veryHigh: 0.9
+      case .complete: 1
       }
     }
   }
