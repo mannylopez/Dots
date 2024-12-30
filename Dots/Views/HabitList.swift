@@ -3,8 +3,10 @@
 import SwiftUI
 
 struct HabitList: View {
+
+  // MARK: Internal
+
   @EnvironmentObject var viewModel: HabitViewModel
-  private let today = Date()
 
   var body: some View {
     NavigationView {
@@ -19,12 +21,29 @@ struct HabitList: View {
         }
       }
       .navigationBarTitle("Habits")
+      .toolbar {
+        ToolbarItem(placement: .bottomBar) {
+          Button {
+            print("tapped")
+          } label: {
+            Image(systemName: "plus.circle.fill")
+              .font(.system(size: 60))
+              .foregroundColor(.black)
+          }
+          .padding(.bottom, 85)
+        }
+      }
     }
   }
+
+  // MARK: Private
+
+  private let today = Date()
+
 }
 
 #Preview {
   let viewModel = HabitViewModel()
-  HabitList()
+  return HabitList()
     .environmentObject(viewModel)
 }
