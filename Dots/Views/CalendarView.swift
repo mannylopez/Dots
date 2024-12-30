@@ -14,6 +14,16 @@ struct CalendarView: View {
     self.habitID = habitID
     self.currentMonth = currentMonth
     self.currentYear = currentYear
+
+    // Initialize with the months preceding and following the current month
+    let initial = (-3...3).map { offset in
+      let (month, year) = CalendarView.calculateMonth(
+        fromMonth: currentMonth,
+        year: currentYear,
+        offset: offset)
+      return MonthYear(month: month, year: year)
+    }
+    _monthYears = State(initialValue: initial)
   }
 
   // MARK: Internal
@@ -21,21 +31,9 @@ struct CalendarView: View {
   var body: some View {
     ScrollView(.vertical) {
       ScrollViewReader { proxy in
-
-        ForEach(monthYears, id: \.self) { monthYear in
-          MonthView(
-            habitID: habitID,
-            month: monthYear.month,
-            year: monthYear.year)
-            .id(monthYear)
-        }
-        .onAppear {
-          proxy.scrollTo(
-            MonthYear(
-              month: monthToScrollTo(),
-              year: yearToScrollTo()),
-            anchor: .top)
-        }
+        addMonthButton(direction: .past)
+        monthsGrid(proxy: proxy)
+        addMonthButton(direction: .future)
       }
     }
     .clipped()
@@ -48,20 +46,64 @@ struct CalendarView: View {
     let year: Int
   }
 
+  private enum TimeDirection {
+    case past
+    case future
+  }
+
+  @State private var monthYears: [MonthYear]
+
   private let habitID: UUID
   private let currentMonth: Int
   private let currentYear: Int
 
-  private let months = 1..<13
-  // TODO: Refactor this. What years to show and how to send them in?
-  private let years = [2024, 2025]
+  /// Helper function to calculate month and year
+  private static func calculateMonth(
+    fromMonth: Int,
+    year: Int,
+    offset: Int)
+    -> (month: Int, year: Int)
+  {
+    let totalMonths = fromMonth + offset
+    let newMonth = ((totalMonths - 1 + 12) % 12) + 1
+    let yearOffset = (totalMonths - 1) / 12
+    let newYear = year + (totalMonths <= 0 ? yearOffset - 1 : yearOffset)
+    return (newMonth, newYear)
+  }
 
-  private var monthYears: [MonthYear] {
-    years.flatMap { year in
-      months.map { month in
-        MonthYear(month: month, year: year)
-      }
+  private func monthsGrid(proxy: ScrollViewProxy) -> some View {
+    ForEach(monthYears, id: \.self) { monthYear in
+      MonthView(
+        habitID: habitID,
+        month: monthYear.month,
+        year: monthYear.year)
+        .id(monthYear)
     }
+    .onAppear {
+      proxy.scrollTo(
+        MonthYear(
+          month: monthToScrollTo(),
+          year: yearToScrollTo()),
+        anchor: .top)
+    }
+  }
+
+  private func addMonthButton(direction: TimeDirection) -> some View {
+    Button {
+      addMonth(direction: direction)
+    } label: {
+      Text("Load more")
+    }
+  }
+
+  private func addMonth(direction: TimeDirection) {
+    guard let referenceMonth = direction == .past ? monthYears.first : monthYears.last else { return }
+    let offset = direction == .past ? -1 : 1
+    let (month, year) = CalendarView.calculateMonth(fromMonth: referenceMonth.month, year: referenceMonth.year, offset: offset)
+    let newMonthYear = MonthYear(month: month, year: year)
+
+    let insertionIndex = direction == .past ? 0 : monthYears.count
+    monthYears.insert(newMonthYear, at: insertionIndex)
   }
 
   private func monthToScrollTo() -> Int {
