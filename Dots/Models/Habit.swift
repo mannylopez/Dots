@@ -8,6 +8,7 @@ struct Habit: Identifiable {
   let id: UUID
   let name: String
   var completedDates: Set<Date>
+  let creationDate: Date
 
   init(
     id: UUID = UUID(),
@@ -17,6 +18,7 @@ struct Habit: Identifiable {
     self.id = id
     self.name = name
     self.completedDates = completedDates
+    creationDate = Date()
   }
 
   func isCompleted(for date: Date) -> Bool {

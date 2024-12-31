@@ -10,7 +10,7 @@ struct HabitList: View {
 
   var body: some View {
     NavigationView {
-      List(Array(viewModel.habits.values), id: \.id) { habit in
+      List(viewModel.habitList, id: \.id) { habit in
         NavigationLink {
           CalendarView(
             habitID: habit.id,
@@ -20,7 +20,7 @@ struct HabitList: View {
           HabitRow(title: habit.name)
         }
       }
-      .navigationBarTitle("Habits")
+      .navigationBarTitle("Goals")
       .toolbar {
         ToolbarItem(placement: .bottomBar) {
           Button {
@@ -28,7 +28,7 @@ struct HabitList: View {
           } label: {
             Image(systemName: "plus.circle.fill")
               .font(.system(size: 60))
-              .foregroundColor(.black)
+              .foregroundColor(.primary)
           }
           .padding(.bottom, 85)
         }
