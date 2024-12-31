@@ -9,7 +9,7 @@ struct HabitList: View {
   @EnvironmentObject var viewModel: HabitViewModel
 
   var body: some View {
-    NavigationView {
+    ZStack {
       List(viewModel.habitList, id: \.id) { habit in
         NavigationLink {
           CalendarView(
@@ -21,24 +21,35 @@ struct HabitList: View {
         }
       }
       .navigationBarTitle("Goals")
-      .toolbar {
-        ToolbarItem(placement: .bottomBar) {
-          Button {
-            print("tapped")
-          } label: {
-            Image(systemName: "plus.circle.fill")
-              .font(.system(size: 60))
-              .foregroundColor(.primary)
-          }
-          .padding(.bottom, 85)
-        }
+
+      VStack {
+        Spacer()
+        addHabitButton()
       }
+    }
+    .sheet(isPresented: $showingAddHabit) {
+      AddHabitSheet(isPresented: $showingAddHabit)
+        .presentationDetents([.medium])
     }
   }
 
   // MARK: Private
 
+  @State private var showingAddHabit = false
+
   private let today = Date()
+
+  @ViewBuilder
+  private func addHabitButton() -> some View {
+    Button {
+      print("tapped")
+      showingAddHabit = true
+    } label: {
+      Image(systemName: "plus.circle.fill")
+        .font(.system(size: 60))
+        .foregroundColor(.primary)
+    }
+  }
 
 }
 
