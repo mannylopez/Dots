@@ -1,23 +1,27 @@
 // Created by manny_lopez on 12/31/24.
 
-import UIKit
 import SwiftUI
+import UIKit
+
+// MARK: - ImmediateKeyboardHelper
 
 struct ImmediateKeyboardHelper: UIViewRepresentable {
   @Binding var isFirstResponder: Bool
 
-  func updateUIView(_ uiView: UITextView, context: Context) {
+  func updateUIView(_ uiView: UITextView, context _: Context) {
     if isFirstResponder {
       uiView.becomeFirstResponder()
     }
   }
 
-  func makeUIView(context: Context) -> UITextView {
+  func makeUIView(context _: Context) -> UITextView {
     let textView = UITextView()
     textView.isHidden = true
     return textView
   }
 }
+
+// MARK: - ImmediateKeyboardModifier
 
 struct ImmediateKeyboardModifier: ViewModifier {
   @State private var isFirstResponder = false
@@ -32,6 +36,6 @@ struct ImmediateKeyboardModifier: ViewModifier {
 
 extension View {
   func showKeyboardImmediately() -> some View {
-    self.modifier(ImmediateKeyboardModifier())
+    modifier(ImmediateKeyboardModifier())
   }
 }
