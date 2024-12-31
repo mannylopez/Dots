@@ -43,4 +43,9 @@ class HabitViewModel: ObservableObject {
     }
   }
 
+  func addHabit(name: String) {
+    let habit = Habit(name: name)
+    habits[habit.id] = habit
+  }
+
 }

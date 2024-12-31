@@ -13,7 +13,7 @@ struct Habit: Identifiable {
   init(
     id: UUID = UUID(),
     name: String,
-    completedDates: Set<Date>)
+    completedDates: Set<Date> = [])
   {
     self.id = id
     self.name = name

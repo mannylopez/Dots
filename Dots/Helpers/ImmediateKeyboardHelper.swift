@@ -3,8 +3,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - ImmediateKeyboardHelper
-
 struct ImmediateKeyboardHelper: UIViewRepresentable {
   @Binding var isFirstResponder: Bool
 
@@ -18,24 +16,5 @@ struct ImmediateKeyboardHelper: UIViewRepresentable {
     let textView = UITextView()
     textView.isHidden = true
     return textView
-  }
-}
-
-// MARK: - ImmediateKeyboardModifier
-
-struct ImmediateKeyboardModifier: ViewModifier {
-  @State private var isFirstResponder = false
-  func body(content: Content) -> some View {
-    content
-      .background(ImmediateKeyboardHelper(isFirstResponder: $isFirstResponder))
-      .onAppear {
-        isFirstResponder = true
-      }
-  }
-}
-
-extension View {
-  func showKeyboardImmediately() -> some View {
-    modifier(ImmediateKeyboardModifier())
   }
 }

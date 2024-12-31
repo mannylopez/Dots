@@ -29,8 +29,7 @@ struct AddHabitSheet: View {
         ToolbarItem(placement: .confirmationAction) {
           Button("Add") {
             if !goalName.isEmpty {
-              //              viewModel.addHabit(name: habitName)
-
+              viewModel.addHabit(name: goalName)
               isPresented = false
             }
           }
