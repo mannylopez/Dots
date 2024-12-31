@@ -8,15 +8,17 @@ struct Habit: Identifiable {
   let id: UUID
   let name: String
   var completedDates: Set<Date>
+  let creationDate: Date
 
   init(
     id: UUID = UUID(),
     name: String,
-    completedDates: Set<Date>)
+    completedDates: Set<Date> = [])
   {
     self.id = id
     self.name = name
     self.completedDates = completedDates
+    creationDate = Date()
   }
 
   func isCompleted(for date: Date) -> Bool {

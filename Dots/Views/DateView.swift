@@ -14,7 +14,7 @@ struct DateView: View {
       if isCompleted {
         Circle()
           .foregroundStyle(.green.opacity(0.4))
-          .frame(width: 20)
+          .frame(width: 23)
       }
       Text(date.toArabicNumeral())
         .frame(width: 25, height: 25)

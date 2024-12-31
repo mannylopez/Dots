@@ -99,7 +99,7 @@ struct MonthView: View {
   let year = 2024
   let viewModel = HabitViewModel()
 
-  MonthView(
+  return MonthView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
     month: month,
     year: year)

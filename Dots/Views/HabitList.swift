@@ -3,12 +3,14 @@
 import SwiftUI
 
 struct HabitList: View {
+
+  // MARK: Internal
+
   @EnvironmentObject var viewModel: HabitViewModel
-  private let today = Date()
 
   var body: some View {
-    NavigationView {
-      List(Array(viewModel.habits.values), id: \.id) { habit in
+    ZStack {
+      List(viewModel.habitList, id: \.id) { habit in
         NavigationLink {
           CalendarView(
             habitID: habit.id,
@@ -18,13 +20,41 @@ struct HabitList: View {
           HabitRow(title: habit.name)
         }
       }
-      .navigationBarTitle("Habits")
+      .navigationBarTitle("Goals")
+
+      VStack {
+        Spacer()
+        addHabitButton()
+      }
+    }
+    .sheet(isPresented: $showingAddHabit) {
+      AddHabitSheet(isPresented: $showingAddHabit)
+        .presentationDetents([.fraction(0.25)])
     }
   }
+
+  // MARK: Private
+
+  @State private var showingAddHabit = false
+
+  private let today = Date()
+
+  @ViewBuilder
+  private func addHabitButton() -> some View {
+    Button {
+      print("tapped")
+      showingAddHabit = true
+    } label: {
+      Image(systemName: "plus.circle.fill")
+        .font(.system(size: 60))
+        .foregroundColor(.primary)
+    }
+  }
+
 }
 
 #Preview {
   let viewModel = HabitViewModel()
-  HabitList()
+  return HabitList()
     .environmentObject(viewModel)
 }

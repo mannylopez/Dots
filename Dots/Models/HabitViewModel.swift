@@ -9,7 +9,7 @@ class HabitViewModel: ObservableObject {
   // MARK: Lifecycle
 
   init(habits: [Habit] = SampleHabitsHelper.generate()) {
-    self.habits = Dictionary(uniqueKeysWithValues: habits.map { ($0.id, $0)})
+    self.habits = Dictionary(uniqueKeysWithValues: habits.map { ($0.id, $0) })
   }
 
   // MARK: Internal
@@ -17,6 +17,12 @@ class HabitViewModel: ObservableObject {
   @Published var habits: [UUID: Habit]
 
   let utils = CalendarUtils.shared
+
+  var habitList: [Habit] {
+    var localHabits = Array(habits.values)
+    localHabits.sort { $0.creationDate < $1.creationDate }
+    return localHabits
+  }
 
   func toggleHabit(habitID: UUID, date: Date) {
     // TODO: Refactor this (fails silently)
@@ -35,6 +41,11 @@ class HabitViewModel: ObservableObject {
     return habit.completedDates.filter { date in
       utils.month(for: date) == month && utils.year(for: date) == year
     }
+  }
+
+  func addHabit(name: String) {
+    let habit = Habit(name: name)
+    habits[habit.id] = habit
   }
 
 }
