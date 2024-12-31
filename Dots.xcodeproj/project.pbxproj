@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		580AEFBB2D237649008AE06F /* AddHabitSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580AEFBA2D237649008AE06F /* AddHabitSheet.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		58B2EA392D1E6E7800FD656C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,7 +17,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		580AEFBA2D237649008AE06F /* AddHabitSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitSheet.swift; sourceTree = "<group>"; };
 		58B2EA352D1E6E7800FD656C /* DotsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C778382D1D24DE00873146 /* Dots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -60,7 +55,6 @@
 		58C7782F2D1D24DE00873146 = {
 			isa = PBXGroup;
 			children = (
-				580AEFBA2D237649008AE06F /* AddHabitSheet.swift */,
 				58C7783A2D1D24DE00873146 /* Dots */,
 				58B2EA362D1E6E7800FD656C /* DotsTests */,
 				58C778392D1D24DE00873146 /* Products */,
@@ -192,7 +186,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				580AEFBB2D237649008AE06F /* AddHabitSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

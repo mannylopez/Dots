@@ -1,5 +1,6 @@
 // Created by manny_lopez on 12/30/24.
 
+import UIKit
 import SwiftUI
 
 struct AddHabitSheet: View {
@@ -14,6 +15,7 @@ struct AddHabitSheet: View {
         Section {
           TextField("Goal name", text: $goalName)
             .focused($isTextFieldFocused)
+            .showKeyboardImmediately()
         } footer: {
           Text("What goal would you like to track?")
         }
@@ -62,3 +64,4 @@ struct AddHabitSheet: View {
 //  @Previewable @State var isPresented = true
 //  return AddHabitSheet(isPresented: $isPresented)
 }
+
