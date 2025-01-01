@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - Habit
 
-struct Habit: Identifiable {
+struct Habit: Identifiable, Hashable {
   let id: UUID
   let name: String
   var completedDates: Set<Date>
@@ -19,6 +19,15 @@ struct Habit: Identifiable {
     self.name = name
     self.completedDates = completedDates
     creationDate = Date()
+  }
+
+  // Add Hashable conformance
+  func hash(into hasher: inout Hasher) {
+      hasher.combine(id)
+  }
+
+  static func == (lhs: Habit, rhs: Habit) -> Bool {
+      lhs.id == rhs.id
   }
 
   func isCompleted(for date: Date) -> Bool {

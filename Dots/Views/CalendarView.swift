@@ -4,6 +4,8 @@ import SwiftUI
 
 struct CalendarView: View {
 
+  @EnvironmentObject var viewModel: HabitViewModel
+
   // MARK: Lifecycle
 
   init(
@@ -36,6 +38,8 @@ struct CalendarView: View {
         addMonthButton(direction: .future)
       }
     }
+    .navigationTitle(name)
+    .navigationBarTitleDisplayMode(.inline)
     .clipped()
   }
 
@@ -49,6 +53,10 @@ struct CalendarView: View {
   private enum TimeDirection {
     case past
     case future
+  }
+
+  private var name: String  {
+    viewModel.habits[habitID]?.name ?? ""
   }
 
   @State private var monthYears: [MonthYear]

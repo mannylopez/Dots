@@ -8,9 +8,9 @@ struct DotsApp: App {
 
   var body: some Scene {
     WindowGroup {
-      NavigationView {
+//      NavigationView {
         HabitList()
-      }
+//      }
       .environmentObject(viewModel)
     }
   }
