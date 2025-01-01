@@ -13,12 +13,12 @@ enum SampleHabitsHelper {
       createHabit(
         name: "Meditation",
         consistency: .medium,
-        startMonth: 3 // Started in March
+        startMonth: 1 // Started in March
       ),
       createHabit(
         name: "Read 30 mins",
         consistency: .low,
-        startMonth: 6 // Started in June
+        startMonth: 1 // Started in June
       ),
       createHabit(
         name: "Drink Water",
@@ -28,7 +28,7 @@ enum SampleHabitsHelper {
       createHabit(
         name: "Evening Walk - low",
         consistency: .low,
-        startMonth: 4 // Started in April
+        startMonth: 1 // Started in April
       ),
       createHabit(
         name: "Walk the dog - complete",
@@ -69,7 +69,7 @@ enum SampleHabitsHelper {
 
     // Create date components
     var components = DateComponents()
-    components.year = 2024
+    components.year = 2025
 
     // Generate dates from start month until now
     for month in startMonth...12 {

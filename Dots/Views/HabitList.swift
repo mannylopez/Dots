@@ -14,13 +14,10 @@ struct HabitList: View {
         ScrollView {
           LazyVStack(spacing: 12) {
             ForEach(viewModel.habitList) { habit in
-
               HabitRow(title: habit.name, habitID: habit.id)
-                .contentShape(Rectangle())
                 .onTapGesture {
                   navigationPath.append(habit)
                 }
-                .padding(.horizontal)
             }
           }
         }
@@ -28,8 +25,8 @@ struct HabitList: View {
         .toolbar {
           ToolbarItem(placement: .principal) {
             HStack {
-              Text("No zero days")
-//                .font(.largeTitle)
+              Text("Goals")
+                .font(.title2)
             }
           }
         }
@@ -45,12 +42,12 @@ struct HabitList: View {
           Spacer()
           addHabitButton()
         }
-//        }
       }
       .sheet(isPresented: $showingAddHabit) {
         AddHabitSheet(isPresented: $showingAddHabit)
           .presentationDetents([.fraction(0.25)])
       }
+      .background(.gray.opacity(0.1))
     }
   }
 
