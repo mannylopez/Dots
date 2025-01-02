@@ -5,10 +5,8 @@ import Foundation
 // MARK: - Habit
 
 struct Habit: Identifiable, Hashable {
-  let id: UUID
-  let name: String
-  var completedDates: Set<Date>
-  let creationDate: Date
+
+  // MARK: Lifecycle
 
   init(
     id: UUID = UUID(),
@@ -20,6 +18,13 @@ struct Habit: Identifiable, Hashable {
     self.completedDates = completedDates
     creationDate = Date()
   }
+
+  // MARK: Internal
+
+  let id: UUID
+  let name: String
+  var completedDates: Set<Date>
+  let creationDate: Date
 
   func isCompleted(for date: Date) -> Bool {
     let calendar = Calendar.current

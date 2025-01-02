@@ -3,32 +3,29 @@
 import Foundation
 
 enum SampleHabitsHelper {
+
+  // MARK: Internal
+
   static func generate() -> [Habit] {
     [
       createHabit(
         name: "Morning Stretch",
-        consistency: .high
-      ),
+        consistency: .high),
       createHabit(
         name: "Meditation",
-        consistency: .medium
-      ),
+        consistency: .medium),
       createHabit(
         name: "Read 30 mins",
-        consistency: .low
-      ),
+        consistency: .low),
       createHabit(
         name: "Drink Water",
-        consistency: .veryHigh
-      ),
+        consistency: .veryHigh),
       createHabit(
         name: "Evening Walk - low",
-        consistency: .low
-      ),
+        consistency: .low),
       createHabit(
         name: "Walk the dog - complete",
-        consistency: .complete
-      ),
+        consistency: .complete),
     ]
   }
 

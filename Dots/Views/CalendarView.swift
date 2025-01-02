@@ -53,8 +53,6 @@ struct CalendarView: View {
     case future
   }
 
-  @EnvironmentObject var viewModel: HabitViewModel
-
   @State private var monthYears: [MonthYear]
 
   private let habit: Habit
