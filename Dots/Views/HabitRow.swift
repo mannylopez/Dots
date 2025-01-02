@@ -12,26 +12,26 @@ struct HabitRow: View {
 
   var body: some View {
     RowContent(
-      title: title, habitID:
-        habitID,
+      title: title,
+      habitID: habitID,
       month: month,
       year: year)
       .frame(
         maxWidth: .infinity,
         maxHeight: .infinity,
-        alignment: .leading)
+        alignment: .top)
       .background(Color(.systemBackground))
+      .cornerRadius(24)
+      .shadow(
+        color: .black.opacity(0.3),
+        radius: 8,
+        x: 0,
+        y: 2)
       .overlay {
         RoundedRectangle(cornerRadius: 24)
           .stroke(.gray.opacity(0.2), lineWidth: 1)
-          .padding(.horizontal, 24)
-        
       }
-//      .shadow(
-//        color: .black.opacity(0.9),
-//        radius: 8,
-//        x: 0,
-//        y: 2)
+      .padding(.horizontal, 24)
   }
 }
 
@@ -49,10 +49,11 @@ struct RowContent: View {
         Text(title)
           .frame(maxWidth: .infinity, alignment: .leading)
         Image(systemName: "chevron.right")
-          .foregroundStyle(.blue)
+          .opacity(0.5)
       }
       .font(.title2)
-      .padding([.leading, .trailing, .top], 24)
+      .padding([.leading, .trailing], 24)
+      .padding(.top, 20)
       .padding(.bottom, habitID != nil ? -20 : 0)
       if let habitID {
         MonthView(habitID: habitID, month: month, year: year)

@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - Habit
 
-struct Habit: Identifiable {
+struct Habit: Identifiable, Hashable {
   let id: UUID
   let name: String
   var completedDates: Set<Date>

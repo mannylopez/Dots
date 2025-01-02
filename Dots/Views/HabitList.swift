@@ -9,27 +9,36 @@ struct HabitList: View {
   @EnvironmentObject var viewModel: HabitViewModel
 
   var body: some View {
-    NavigationView {
-      List(viewModel.habitList, id: \.id) { habit in
-        NavigationLink {
-          CalendarView(
-            habitID: habit.id,
-            currentMonth: currentMonth,
-            currentYear: currentYear)
-        } label: {
-          HabitRow(
-            title: habit.name,
-            habitID: habit.id,
-            month: currentMonth,
-            year: currentYear)
+    NavigationStack(path: $navigationPath) {
+      ZStack {
+        ScrollView {
+          LazyVStack(spacing: 4 * 5) {
+            ForEach(viewModel.habitList) { habit in
+              HabitRow(
+                title: habit.name,
+                habitID: habit.id,
+                month: currentMonth,
+                year: currentYear)
+                .onTapGesture {
+                  navigationPath.append(habit)
+                }
+            }
+          }
+        }
+
+        VStack {
+          Spacer()
+          addHabitButton()
         }
       }
-      .navigationBarTitle("Goals")
-
-      VStack {
-        Spacer()
-        addHabitButton()
+      .navigationTitle("Goals")
+      .navigationDestination(for: Habit.self) { habit in
+        CalendarView(
+          habitID: habit.id,
+          currentMonth: currentMonth,
+          currentYear: currentYear)
       }
+      .background(.gray.opacity(0.1))
     }
     .sheet(isPresented: $showingAddHabit) {
       AddHabitSheet(isPresented: $showingAddHabit)
@@ -40,6 +49,8 @@ struct HabitList: View {
   // MARK: Private
 
   @State private var showingAddHabit = false
+
+  @State private var navigationPath = NavigationPath()
 
   private let today = Date()
 
