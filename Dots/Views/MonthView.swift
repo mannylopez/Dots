@@ -95,9 +95,10 @@ struct MonthView: View {
 }
 
 #Preview {
-  let month = 12
-  let year = 2024
   let viewModel = HabitViewModel()
+  let today = Date()
+  let month = viewModel.utils.month(for: today)
+  let year = viewModel.utils.year(for: today)
 
   return MonthView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,

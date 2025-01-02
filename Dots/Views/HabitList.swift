@@ -9,23 +9,37 @@ struct HabitList: View {
   @EnvironmentObject var viewModel: HabitViewModel
 
   var body: some View {
-    ZStack {
-      List(viewModel.habitList, id: \.id) { habit in
-        NavigationLink {
-          CalendarView(
-            habitID: habit.id,
-            currentMonth: viewModel.utils.month(for: today),
-            currentYear: viewModel.utils.year(for: today))
-        } label: {
-          HabitRow(title: habit.name)
+    NavigationStack(path: $navigationPath) {
+      ZStack {
+        ScrollView {
+          LazyVStack(spacing: 4 * 5) {
+            ForEach(viewModel.habitList) { habit in
+              HabitRow(
+                title: habit.name,
+                habitID: habit.id,
+                month: currentMonth,
+                year: currentYear)
+                .onTapGesture {
+                  navigationPath.append(habit)
+                }
+            }
+          }
+        }
+        .scrollIndicators(.hidden)
+
+        VStack {
+          Spacer()
+          addHabitButton()
         }
       }
-      .navigationBarTitle("Goals")
-
-      VStack {
-        Spacer()
-        addHabitButton()
+      .navigationTitle("Goals")
+      .navigationDestination(for: Habit.self) { habit in
+        CalendarView(
+          habit: habit,
+          currentMonth: currentMonth,
+          currentYear: currentYear)
       }
+      .background(.gray.opacity(0.1))
     }
     .sheet(isPresented: $showingAddHabit) {
       AddHabitSheet(isPresented: $showingAddHabit)
@@ -37,7 +51,17 @@ struct HabitList: View {
 
   @State private var showingAddHabit = false
 
+  @State private var navigationPath = NavigationPath()
+
   private let today = Date()
+
+  private var currentMonth: Int {
+    viewModel.utils.month(for: today)
+  }
+
+  private var currentYear: Int {
+    viewModel.utils.year(for: today)
+  }
 
   @ViewBuilder
   private func addHabitButton() -> some View {
