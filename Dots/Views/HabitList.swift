@@ -12,7 +12,7 @@ struct HabitList: View {
     NavigationStack(path: $navigationPath) {
       ZStack {
         ScrollView {
-          LazyVStack(spacing: 4 * 5) {
+          LazyVStack(spacing: 20) {
             ForEach(viewModel.habitList) { habit in
               HabitRow(
                 title: habit.name,
@@ -24,6 +24,7 @@ struct HabitList: View {
                 }
             }
           }
+          .padding(.bottom, 88)
         }
         .scrollIndicators(.hidden)
 
@@ -39,7 +40,6 @@ struct HabitList: View {
           currentMonth: currentMonth,
           currentYear: currentYear)
       }
-      .background(.gray.opacity(0.1))
     }
     .sheet(isPresented: $showingAddHabit) {
       AddHabitSheet(isPresented: $showingAddHabit)
@@ -66,13 +66,17 @@ struct HabitList: View {
   @ViewBuilder
   private func addHabitButton() -> some View {
     Button {
-      print("tapped")
       showingAddHabit = true
     } label: {
       Image(systemName: "plus.circle.fill")
         .font(.system(size: 60))
-        .foregroundColor(.primary)
+        .foregroundStyle(Color(.systemBackground), Color(.label))
     }
+    .shadow(
+      color: .black.opacity(0.3),
+      radius: 8,
+      x: 0,
+      y: 4)
   }
 
 }
