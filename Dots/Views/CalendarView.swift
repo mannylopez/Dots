@@ -7,11 +7,11 @@ struct CalendarView: View {
   // MARK: Lifecycle
 
   init(
-    habitID: UUID,
+    habit: Habit,
     currentMonth: Int,
     currentYear: Int)
   {
-    self.habitID = habitID
+    self.habit = habit
     self.currentMonth = currentMonth
     self.currentYear = currentYear
 
@@ -35,6 +35,8 @@ struct CalendarView: View {
         monthsGrid(proxy: proxy)
         addMonthButton(direction: .future)
       }
+      .navigationTitle(habit.name)
+      .navigationBarTitleDisplayMode(.inline)
     }
     .clipped()
   }
@@ -51,9 +53,11 @@ struct CalendarView: View {
     case future
   }
 
+  @EnvironmentObject var viewModel: HabitViewModel
+
   @State private var monthYears: [MonthYear]
 
-  private let habitID: UUID
+  private let habit: Habit
   private let currentMonth: Int
   private let currentYear: Int
 
@@ -95,7 +99,7 @@ struct CalendarView: View {
   private func monthsGrid(proxy: ScrollViewProxy) -> some View {
     ForEach(monthYears, id: \.self) { monthYear in
       MonthView(
-        habitID: habitID,
+        habitID: habit.id,
         month: monthYear.month,
         year: monthYear.year)
         .id(monthYear)
@@ -123,8 +127,8 @@ struct CalendarView: View {
 #Preview {
   let viewModel = HabitViewModel()
   let today = Date()
-  return CalendarView(
-    habitID: viewModel.habitList.first!.id,
+  CalendarView(
+    habit: viewModel.habitList.first!,
     currentMonth: viewModel.utils.month(for: today),
     currentYear: viewModel.utils.year(for: today))
     .environmentObject(viewModel)

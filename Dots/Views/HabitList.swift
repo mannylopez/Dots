@@ -25,6 +25,7 @@ struct HabitList: View {
             }
           }
         }
+        .scrollIndicators(.hidden)
 
         VStack {
           Spacer()
@@ -34,7 +35,7 @@ struct HabitList: View {
       .navigationTitle("Goals")
       .navigationDestination(for: Habit.self) { habit in
         CalendarView(
-          habitID: habit.id,
+          habit: habit,
           currentMonth: currentMonth,
           currentYear: currentYear)
       }
