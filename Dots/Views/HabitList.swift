@@ -9,7 +9,7 @@ struct HabitList: View {
   @EnvironmentObject var viewModel: HabitViewModel
 
   var body: some View {
-    ZStack {
+    NavigationView {
       List(viewModel.habitList, id: \.id) { habit in
         NavigationLink {
           CalendarView(
