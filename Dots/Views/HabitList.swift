@@ -14,10 +14,14 @@ struct HabitList: View {
         NavigationLink {
           CalendarView(
             habitID: habit.id,
-            currentMonth: viewModel.utils.month(for: today),
-            currentYear: viewModel.utils.year(for: today))
+            currentMonth: currentMonth,
+            currentYear: currentYear)
         } label: {
-          HabitRow(title: habit.name)
+          HabitRow(
+            title: habit.name,
+            habitID: habit.id,
+            month: currentMonth,
+            year: currentYear)
         }
       }
       .navigationBarTitle("Goals")
@@ -38,6 +42,14 @@ struct HabitList: View {
   @State private var showingAddHabit = false
 
   private let today = Date()
+
+  private var currentMonth: Int {
+    viewModel.utils.month(for: today)
+  }
+
+  private var currentYear: Int {
+    viewModel.utils.year(for: today)
+  }
 
   @ViewBuilder
   private func addHabitButton() -> some View {
