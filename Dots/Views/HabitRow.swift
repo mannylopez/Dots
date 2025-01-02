@@ -22,11 +22,7 @@ struct HabitRow: View {
         alignment: .top)
       .background(Color(.systemBackground))
       .cornerRadius(24)
-      .shadow(
-        color: .black.opacity(0.3),
-        radius: 8,
-        x: 0,
-        y: 2)
+      .adaptiveShadow(x: 0, y: 2, opacity: 0.3)
       .overlay {
         RoundedRectangle(cornerRadius: 24)
           .stroke(.gray.opacity(0.2), lineWidth: 1)

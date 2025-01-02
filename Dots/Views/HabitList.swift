@@ -72,11 +72,7 @@ struct HabitList: View {
         .font(.system(size: 60))
         .foregroundStyle(Color(.systemBackground), Color(.label))
     }
-    .shadow(
-      color: .black.opacity(0.3),
-      radius: 8,
-      x: 0,
-      y: 4)
+    .adaptiveShadow()
   }
 
 }
