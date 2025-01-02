@@ -124,7 +124,7 @@ struct CalendarView: View {
   let viewModel = HabitViewModel()
   let today = Date()
   return CalendarView(
-    habitID: viewModel.habits.first.unsafelyUnwrapped.key,
+    habitID: viewModel.habitList.first!.id,
     currentMonth: viewModel.utils.month(for: today),
     currentYear: viewModel.utils.year(for: today))
     .environmentObject(viewModel)

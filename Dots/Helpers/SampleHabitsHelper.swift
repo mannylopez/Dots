@@ -7,33 +7,27 @@ enum SampleHabitsHelper {
     [
       createHabit(
         name: "Morning Stretch",
-        consistency: .high,
-        startMonth: 1 // Started in January
+        consistency: .high
       ),
       createHabit(
         name: "Meditation",
-        consistency: .medium,
-        startMonth: 3 // Started in March
+        consistency: .medium
       ),
       createHabit(
         name: "Read 30 mins",
-        consistency: .low,
-        startMonth: 6 // Started in June
+        consistency: .low
       ),
       createHabit(
         name: "Drink Water",
-        consistency: .veryHigh,
-        startMonth: 1 // Started in January
+        consistency: .veryHigh
       ),
       createHabit(
         name: "Evening Walk - low",
-        consistency: .low,
-        startMonth: 4 // Started in April
+        consistency: .low
       ),
       createHabit(
         name: "Walk the dog - complete",
-        consistency: .complete,
-        startMonth: 1 // Started in January
+        consistency: .complete
       ),
     ]
   }
@@ -61,7 +55,7 @@ enum SampleHabitsHelper {
   private static func createHabit(
     name: String,
     consistency: Consistency,
-    startMonth: Int)
+    startMonth: Int = 9)
     -> Habit
   {
     let calendar = Calendar.current
@@ -72,7 +66,7 @@ enum SampleHabitsHelper {
     components.year = 2024
 
     // Generate dates from start month until now
-    for month in startMonth...12 {
+    for month in startMonth...13 {
       components.month = month
 
       // For each day in the month
