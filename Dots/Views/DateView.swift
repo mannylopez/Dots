@@ -20,7 +20,7 @@ struct DateView: View {
         .frame(width: 25, height: 25)
         .overlay {
           Circle()
-            .stroke(addBorder ? .black : .clear, lineWidth: 2)
+            .stroke(addBorder ? Color(.label) : .clear, lineWidth: 2)
         }
     }
   }

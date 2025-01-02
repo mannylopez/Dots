@@ -20,7 +20,7 @@ class HabitViewModel: ObservableObject {
 
   var habitList: [Habit] {
     var localHabits = Array(habits.values)
-    localHabits.sort { $0.creationDate < $1.creationDate }
+    localHabits.sort { $0.creationDate > $1.creationDate }
     return localHabits
   }
 
