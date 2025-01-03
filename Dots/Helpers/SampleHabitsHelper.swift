@@ -21,7 +21,7 @@ enum SampleHabitsHelper {
         name: "Drink Water",
         consistency: .veryHigh),
       createHabit(
-        name: "Evening Walk - low",
+        name: "Super long long name for habit - low",
         consistency: .low),
       createHabit(
         name: "Walk the dog - complete",

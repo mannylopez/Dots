@@ -38,7 +38,15 @@ struct CalendarView: View {
       .navigationTitle(habit.name)
       .navigationBarTitleDisplayMode(.inline)
     }
-    .clipped()
+    .toolbar {
+      ToolbarItem(placement: .confirmationAction) {
+        Button {
+          print("hi")
+        } label: {
+          Image(systemName: "gearshape")
+        }
+      }
+    }
   }
 
   // MARK: Private

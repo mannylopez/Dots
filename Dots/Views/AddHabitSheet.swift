@@ -13,7 +13,7 @@ struct AddHabitSheet: View {
     NavigationView {
       Form {
         Section {
-          TextField("Goal name", text: $goalName)
+          TextField("Goal name", text: $habitName)
             .focused($isTextFieldFocused)
             .showKeyboardImmediately()
         } footer: {
@@ -28,12 +28,12 @@ struct AddHabitSheet: View {
         }
         ToolbarItem(placement: .confirmationAction) {
           Button("Add") {
-            if !goalName.isEmpty {
-              viewModel.addHabit(name: goalName)
+            if !habitName.isEmpty {
+              viewModel.addHabit(name: habitName)
               isPresented = false
             }
           }
-          .disabled(goalName.isEmpty)
+          .disabled(habitName.isEmpty)
         }
       }
       .onAppear {
@@ -46,7 +46,7 @@ struct AddHabitSheet: View {
   // MARK: Private
 
   @FocusState private var isTextFieldFocused: Bool
-  @State private var goalName = ""
+  @State private var habitName = ""
   @Binding var isPresented: Bool
 
 }
