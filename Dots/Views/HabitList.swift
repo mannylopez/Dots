@@ -38,7 +38,10 @@ struct HabitList: View {
         CalendarView(
           habit: habit,
           currentMonth: currentMonth,
-          currentYear: currentYear)
+          currentYear: currentYear,
+          dismissToRoot: {
+            navigationPath = NavigationPath()
+          })
       }
     }
     .sheet(isPresented: $showingAddHabit) {

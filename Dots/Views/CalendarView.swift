@@ -9,11 +9,13 @@ struct CalendarView: View {
   init(
     habit: Habit,
     currentMonth: Int,
-    currentYear: Int)
+    currentYear: Int,
+    dismissToRoot: @escaping () -> Void)
   {
     self.habit = habit
     self.currentMonth = currentMonth
     self.currentYear = currentYear
+    self.dismissToRoot = dismissToRoot
 
     // Initialize with the months preceding and following the current month
     let initial = (-3...3).map { offset in
@@ -28,6 +30,8 @@ struct CalendarView: View {
 
   // MARK: Internal
 
+  @EnvironmentObject var viewModel: HabitViewModel
+
   var body: some View {
     ScrollView(.vertical) {
       ScrollViewReader { proxy in
@@ -35,10 +39,26 @@ struct CalendarView: View {
         monthsGrid(proxy: proxy)
         addMonthButton(direction: .future)
       }
-      .navigationTitle(habit.name)
+      .navigationTitle(habitName())
       .navigationBarTitleDisplayMode(.inline)
     }
-    .clipped()
+    .toolbar {
+      ToolbarItem(placement: .confirmationAction) {
+        Button {
+          showingConfigureHabitSheet = true
+        } label: {
+          Image(systemName: "gearshape")
+        }
+      }
+    }
+    .sheet(isPresented: $showingConfigureHabitSheet) {
+      ConfigureHabitSheet(
+        isPresented: $showingConfigureHabitSheet,
+        habit: habit,
+        name: habitName(),
+        color: habitColor(),
+        dismissToRoot: dismissToRoot)
+    }
   }
 
   // MARK: Private
@@ -54,6 +74,9 @@ struct CalendarView: View {
   }
 
   @State private var monthYears: [MonthYear]
+  @State private var showingConfigureHabitSheet = false
+
+  private let dismissToRoot: () -> Void
 
   private let habit: Habit
   private let currentMonth: Int
@@ -71,6 +94,14 @@ struct CalendarView: View {
     let yearOffset = (totalMonths - 1) / 12
     let newYear = year + (totalMonths <= 0 ? yearOffset - 1 : yearOffset)
     return (newMonth, newYear)
+  }
+
+  private func habitName() -> String {
+    viewModel.habits[habit.id]?.name ?? habit.name
+  }
+
+  private func habitColor() -> Color {
+    viewModel.habits[habit.id]?.color ?? .green
   }
 
   private func addMonth(direction: TimeDirection) {
@@ -101,6 +132,10 @@ struct CalendarView: View {
         month: monthYear.month,
         year: monthYear.year)
         .id(monthYear)
+
+      Divider()
+        .frame(maxWidth: 150)
+        .padding(.top, 20)
     }
     .onAppear {
       proxy.scrollTo(
@@ -128,6 +163,7 @@ struct CalendarView: View {
   CalendarView(
     habit: viewModel.habitList.first!,
     currentMonth: viewModel.utils.month(for: today),
-    currentYear: viewModel.utils.year(for: today))
+    currentYear: viewModel.utils.year(for: today),
+    dismissToRoot: { })
     .environmentObject(viewModel)
 }

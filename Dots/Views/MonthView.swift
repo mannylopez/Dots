@@ -47,7 +47,8 @@ struct MonthView: View {
           DateView(
             date: day,
             isCompleted: isCompleted,
-            addBorder: isToday(date: date))
+            addBorder: isToday(date: date),
+            fillColor: fillColor())
             .onTapGesture {
               viewModel.toggleHabit(habitID: habitID, date: date)
             }
@@ -90,6 +91,11 @@ struct MonthView: View {
 
   private func isToday(date: Date) -> Bool {
     viewModel.utils.isToday(date: date)
+  }
+
+  private func fillColor() -> Color {
+    guard let habit = viewModel.habits[habitID] else { return .green }
+    return habit.color
   }
 
 }
