@@ -28,6 +28,8 @@ struct CalendarView: View {
 
   // MARK: Internal
 
+  @EnvironmentObject var viewModel: HabitViewModel
+
   var body: some View {
     ScrollView(.vertical) {
       ScrollViewReader { proxy in
@@ -35,17 +37,24 @@ struct CalendarView: View {
         monthsGrid(proxy: proxy)
         addMonthButton(direction: .future)
       }
-      .navigationTitle(habit.name)
+      .navigationTitle(habitName())
       .navigationBarTitleDisplayMode(.inline)
     }
     .toolbar {
       ToolbarItem(placement: .confirmationAction) {
         Button {
-          print("hi")
+          showingConfigureHabitSheet = true
         } label: {
           Image(systemName: "gearshape")
         }
       }
+    }
+    .sheet(isPresented: $showingConfigureHabitSheet) {
+      ConfigureHabitSheet(
+        isPresented: $showingConfigureHabitSheet,
+        habit: habit,
+        name: habitName(),
+        color: habitColor())
     }
   }
 
@@ -62,6 +71,7 @@ struct CalendarView: View {
   }
 
   @State private var monthYears: [MonthYear]
+  @State private var showingConfigureHabitSheet = false
 
   private let habit: Habit
   private let currentMonth: Int
@@ -79,6 +89,14 @@ struct CalendarView: View {
     let yearOffset = (totalMonths - 1) / 12
     let newYear = year + (totalMonths <= 0 ? yearOffset - 1 : yearOffset)
     return (newMonth, newYear)
+  }
+
+  private func habitName() -> String {
+    viewModel.habits[habit.id]?.name ?? habit.name
+  }
+
+  private func habitColor() -> Color {
+    viewModel.habits[habit.id]?.color ?? .green
   }
 
   private func addMonth(direction: TimeDirection) {

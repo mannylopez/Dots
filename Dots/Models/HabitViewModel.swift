@@ -1,6 +1,6 @@
 // Created by manny_lopez on 12/28/24.
 
-import Foundation
+import SwiftUI
 
 // MARK: - HabitViewModel
 
@@ -46,6 +46,17 @@ class HabitViewModel: ObservableObject {
   func addHabit(name: String) {
     let habit = Habit(name: name)
     habits[habit.id] = habit
+  }
+
+  func updateHabit(habitID: UUID, name: String, color: Color) {
+    habits[habitID]?.name = name
+    habits[habitID]?.color = color
+  }
+
+  func deleteHabit(habitID: UUID) {
+    print("count", habits.count)
+    habits.removeValue(forKey: habitID)
+    print("count", habits.count)
   }
 
 }

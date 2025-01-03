@@ -8,16 +8,17 @@ struct DateView: View {
   let date: Int
   let isCompleted: Bool
   let addBorder: Bool
+  let fillColor: Color
 
   var body: some View {
     ZStack {
       if isCompleted {
         Circle()
-          .foregroundStyle(.green.opacity(0.4))
+          .foregroundStyle(fillColor)
           .frame(width: 23)
       }
-      Text(date.toArabicNumeral())
-//      Text("\(date)")
+//      Text(date.toArabicNumeral())
+      Text("\(date)")
         .frame(width: 25, height: 25)
         .overlay {
           Circle()
@@ -28,7 +29,7 @@ struct DateView: View {
 }
 
 #Preview {
-  DateView(date: 7, isCompleted: true, addBorder: true)
+  DateView(date: 7, isCompleted: true, addBorder: true, fillColor: .green)
 }
 
 extension Int {

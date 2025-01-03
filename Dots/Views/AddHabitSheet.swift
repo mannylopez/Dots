@@ -60,6 +60,4 @@ struct AddHabitSheet: View {
     }
   }
   return PreviewWrapper()
-//  @Previewable @State var isPresented = true
-//  return AddHabitSheet(isPresented: $isPresented)
 }
