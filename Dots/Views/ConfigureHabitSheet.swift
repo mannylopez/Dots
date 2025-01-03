@@ -3,13 +3,16 @@
 import SwiftUI
 
 struct ConfigureHabitSheet: View {
+
   @EnvironmentObject var viewModel: HabitViewModel
   @Binding var isPresented: Bool
   @State private var showingAlert = false
 
   let habit: Habit
+
   @State var name: String
   @State var color: Color
+  var dismissToRoot: () -> Void
 
   var body: some View {
     Form {
@@ -27,7 +30,7 @@ struct ConfigureHabitSheet: View {
   }
 
   @ViewBuilder
-  func colorPicker() -> some View {
+  private func colorPicker() -> some View {
     ColorPicker(selection: $color) {
       HStack {
         Text("Color")
@@ -40,7 +43,7 @@ struct ConfigureHabitSheet: View {
   }
 
   @ViewBuilder
-  func saveChangesButton() -> some View {
+  private func saveChangesButton() -> some View {
     Button {
       viewModel.updateHabit(
         habitID: habit.id,
@@ -59,9 +62,8 @@ struct ConfigureHabitSheet: View {
   }
 
   @ViewBuilder
-  func deleteHabitButton() -> some View {
+  private func deleteHabitButton() -> some View {
     Button {
-      print("delete")
       showingAlert = true
     } label: {
       HStack {
@@ -75,6 +77,8 @@ struct ConfigureHabitSheet: View {
       Button("Cancel", role: .cancel) { }
       Button("Delete", role: .destructive) {
         viewModel.deleteHabit(habitID: habit.id)
+        isPresented = false
+        dismissToRoot()
       }
     }
   }
@@ -90,7 +94,8 @@ struct ConfigureHabitSheet: View {
         isPresented: $isPresented,
         habit: habit,
         name: habit.name,
-        color: habit.color)
+        color: habit.color,
+        dismissToRoot: { })
     }
   }
   return PreviewWrapper()

@@ -9,11 +9,13 @@ struct CalendarView: View {
   init(
     habit: Habit,
     currentMonth: Int,
-    currentYear: Int)
+    currentYear: Int,
+    dismissToRoot: @escaping () -> Void)
   {
     self.habit = habit
     self.currentMonth = currentMonth
     self.currentYear = currentYear
+    self.dismissToRoot = dismissToRoot
 
     // Initialize with the months preceding and following the current month
     let initial = (-3...3).map { offset in
@@ -54,7 +56,8 @@ struct CalendarView: View {
         isPresented: $showingConfigureHabitSheet,
         habit: habit,
         name: habitName(),
-        color: habitColor())
+        color: habitColor(),
+        dismissToRoot: dismissToRoot)
     }
   }
 
@@ -72,6 +75,8 @@ struct CalendarView: View {
 
   @State private var monthYears: [MonthYear]
   @State private var showingConfigureHabitSheet = false
+
+  private let dismissToRoot: () -> Void
 
   private let habit: Habit
   private let currentMonth: Int
@@ -158,6 +163,7 @@ struct CalendarView: View {
   CalendarView(
     habit: viewModel.habitList.first!,
     currentMonth: viewModel.utils.month(for: today),
-    currentYear: viewModel.utils.year(for: today))
+    currentYear: viewModel.utils.year(for: today),
+    dismissToRoot: { })
     .environmentObject(viewModel)
 }

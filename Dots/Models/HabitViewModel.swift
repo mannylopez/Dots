@@ -54,9 +54,7 @@ class HabitViewModel: ObservableObject {
   }
 
   func deleteHabit(habitID: UUID) {
-    print("count", habits.count)
     habits.removeValue(forKey: habitID)
-    print("count", habits.count)
   }
 
 }
