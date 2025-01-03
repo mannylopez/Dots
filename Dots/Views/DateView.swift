@@ -17,6 +17,7 @@ struct DateView: View {
           .frame(width: 23)
       }
       Text(date.toArabicNumeral())
+//      Text("\(date)")
         .frame(width: 25, height: 25)
         .overlay {
           Circle()

@@ -101,6 +101,10 @@ struct CalendarView: View {
         month: monthYear.month,
         year: monthYear.year)
         .id(monthYear)
+
+      Divider()
+        .frame(maxWidth: 150)
+        .padding(.top, 20)
     }
     .onAppear {
       proxy.scrollTo(

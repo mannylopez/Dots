@@ -45,6 +45,7 @@ struct RowContent: View {
         Text(title)
           .frame(maxWidth: .infinity, alignment: .leading)
         Image(systemName: "chevron.right")
+          .imageScale(.small)
           .opacity(0.5)
       }
       .font(.title2)
@@ -63,12 +64,6 @@ struct RowContent: View {
   let title = "Physical therapy exercises"
   let viewModel = HabitViewModel()
   let today = Date()
-//  RowContent(
-//    title: title,
-//    habitID: viewModel.habitList.first!.id,
-//    month: viewModel.utils.month(for: today),
-//    year: viewModel.utils.year(for: today))
-//    .environmentObject(viewModel)
 
   HabitRow(
     title: title,
