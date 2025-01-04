@@ -46,7 +46,6 @@ struct HabitList: View {
     }
     .sheet(isPresented: $showingAddHabit) {
       AddHabitSheet(isPresented: $showingAddHabit)
-        .presentationDetents([.fraction(0.25)])
     }
   }
 

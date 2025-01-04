@@ -1,6 +1,8 @@
 // Created by manny_lopez on 12/29/24.
 
-import Foundation
+import SwiftUI
+
+// MARK: - SampleHabitsHelper
 
 enum SampleHabitsHelper {
 
@@ -80,6 +82,6 @@ enum SampleHabitsHelper {
       }
     }
 
-    return Habit(name: name, completedDates: dates)
+    return Habit(name: name, color: Color.green.opacity(0.4), completedDates: dates)
   }
 }

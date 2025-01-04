@@ -18,26 +18,13 @@ struct ConfigureHabitSheet: View {
     Form {
       Section {
         TextField(habit.name, text: $name)
-        colorPicker()
+        colorPicker(color: $color)
       }
       Section {
         saveChangesButton()
       }
       Section {
         deleteHabitButton()
-      }
-    }
-  }
-
-  @ViewBuilder
-  private func colorPicker() -> some View {
-    ColorPicker(selection: $color) {
-      HStack {
-        Text("Color")
-        Spacer()
-        DateView(date: 1, isCompleted: true, addBorder: false, fillColor: color)
-        DateView(date: 25, isCompleted: true, addBorder: false, fillColor: color)
-        DateView(date: 31, isCompleted: true, addBorder: false, fillColor: color)
       }
     }
   }

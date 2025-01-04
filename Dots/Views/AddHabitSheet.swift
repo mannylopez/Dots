@@ -3,6 +3,8 @@
 import SwiftUI
 import UIKit
 
+// MARK: - AddHabitSheet
+
 struct AddHabitSheet: View {
 
   @EnvironmentObject var viewModel: HabitViewModel
@@ -10,30 +12,17 @@ struct AddHabitSheet: View {
   // MARK: Internal
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       Form {
-        Section {
-          TextField("Goal name", text: $habitName)
-            .focused($isTextFieldFocused)
-            .showKeyboardImmediately()
-        } footer: {
-          Text("What goal would you like to track?")
-        }
+        colorPicker(color: $color)
+        goalNameTextField()
       }
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
-          Button("Cancel") {
-            isPresented = false
-          }
+          cancelButton()
         }
         ToolbarItem(placement: .confirmationAction) {
-          Button("Add") {
-            if !habitName.isEmpty {
-              viewModel.addHabit(name: habitName)
-              isPresented = false
-            }
-          }
-          .disabled(habitName.isEmpty)
+          addButton()
         }
       }
       .onAppear {
@@ -48,6 +37,34 @@ struct AddHabitSheet: View {
   @FocusState private var isTextFieldFocused: Bool
   @State private var habitName = ""
   @Binding var isPresented: Bool
+  @State var color = Color.green.opacity(0.4)
+
+  @ViewBuilder
+  private func goalNameTextField() -> some View {
+    TextField("Goal name", text: $habitName)
+      .focused($isTextFieldFocused)
+      .showKeyboardImmediately()
+  }
+
+  @ViewBuilder
+  private func cancelButton() -> some View {
+    Button("Cancel") {
+      isPresented = false
+    }
+  }
+
+  @ViewBuilder
+  private func addButton() -> some View {
+    Button("Add") {
+      if !habitName.isEmpty {
+        viewModel.addHabit(
+          name: habitName,
+          color: color)
+        isPresented = false
+      }
+    }
+    .disabled(habitName.isEmpty)
+  }
 
 }
 
