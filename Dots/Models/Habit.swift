@@ -11,7 +11,7 @@ struct Habit: Identifiable, Hashable {
   init(
     id: UUID = UUID(),
     name: String,
-    color: Color = .green.opacity(0.3),
+    color: Color,
     completedDates: Set<Date> = [])
   {
     self.id = id
