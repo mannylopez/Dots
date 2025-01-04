@@ -51,6 +51,9 @@ struct MonthView: View {
             fillColor: fillColor())
             .onTapGesture {
               viewModel.toggleHabit(habitID: habitID, date: date)
+              if !isCompleted {
+                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+              }
             }
         }
       }
