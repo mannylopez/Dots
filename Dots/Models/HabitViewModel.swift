@@ -27,8 +27,11 @@ class HabitViewModel: ObservableObject {
   func toggleHabit(habitID: UUID, date: Date) {
     // TODO: Refactor this (fails silently)
     guard var habit = habits[habitID] else { return }
+    let calendar = Calendar.current
     if habit.isCompleted(for: date) {
-      habit.completedDates.remove(date)
+      if let first = habit.completedDates.first(where: { calendar.isDate($0, inSameDayAs: date) }) {
+        habit.completedDates.remove(first)
+      }
     } else {
       habit.completedDates.insert(date)
     }
@@ -55,6 +58,20 @@ class HabitViewModel: ObservableObject {
 
   func deleteHabit(habitID: UUID) {
     habits.removeValue(forKey: habitID)
+  }
+
+  func updateNote(habitID: UUID, dayModel: DayModel) {
+    let calendar = Calendar.current
+    guard let note = dayModel.note else {
+      if let keyToRemove = habits[habitID]?.notes.keys.first(where: { calendar.isDate($0, inSameDayAs: dayModel.date) }) {
+        habits[habitID]?.notes.removeValue(forKey: keyToRemove)
+      }
+      return
+    }
+    if let keyToRemove = habits[habitID]?.notes.keys.first(where: { calendar.isDate($0, inSameDayAs: dayModel.date) }) {
+      habits[habitID]?.notes.removeValue(forKey: keyToRemove)
+    }
+    habits[habitID]?.notes[dayModel.date] = note
   }
 
 }
