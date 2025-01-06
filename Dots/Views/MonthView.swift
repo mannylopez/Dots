@@ -50,17 +50,64 @@ struct MonthView: View {
             addBorder: isToday(date: date),
             fillColor: fillColor())
             .onTapGesture {
-              viewModel.toggleHabit(habitID: habitID, date: date)
-              if !isCompleted {
+              print("note", String(describing: note(date: date)))
+              selectedDayModel = DayModel(
+                day: day,
+                note: note(date: date),
+                date: date)
+            }
+        }
+        .sheet(item: $selectedDayModel) { dayModel in
+          VStack {
+
+            DateView(
+              date: dayModel.day,
+              isCompleted: isCompleted(date: dayModel.date),
+              addBorder: isToday(date: dayModel.date),
+              fillColor: fillColor(),
+              isLarge: true)
+            .padding(.top, 16)
+            .onTapGesture {
+              viewModel.toggleHabit(habitID: habitID, date: dayModel.date)
+              if isCompleted(date: dayModel.date) {
                 UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
               }
             }
+
+            TextField("Add notes", text: $noteText, axis: .vertical)
+              .padding()
+              .overlay(content: {
+                RoundedRectangle(cornerRadius: 10)
+                  .stroke(Color(.label))
+              })
+              .padding()
+              .onAppear {
+                noteText = dayModel.note ?? ""
+              }
+              .onChange(of: noteText) { newValue in
+                viewModel.updateNote(
+                  habitID: habitID,
+                  dayModel: DayModel(
+                    day: dayModel.day,
+                    note: newValue.isEmpty ? nil : newValue ,
+                    date: dayModel.date))
+              }
+            Spacer()
+          }
+
+          .presentationDetents([.medium])
         }
       }
     }
   }
 
+
+
   // MARK: Private
+  @State var noteText: String = ""
+  @State private var showDayModal = false
+  @State private var selectedDayModel: DayModel? = nil
+  @State private var selectedDate: Date? = nil
 
   private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
   private let habitID: UUID
@@ -92,6 +139,16 @@ struct MonthView: View {
     return habit.isCompleted(for: date)
   }
 
+  private func note(date: Date) -> String? {
+    guard let habit = viewModel.habits[habitID] else { return nil }
+    return habit.note(for: date)
+  }
+
+  private func habitItem() -> Habit? {
+    guard let habit = viewModel.habits[habitID] else { return nil }
+    return habit
+  }
+
   private func isToday(date: Date) -> Bool {
     viewModel.utils.isToday(date: date)
   }
@@ -105,13 +162,35 @@ struct MonthView: View {
 
 #Preview {
   let viewModel = HabitViewModel()
+  let firstHabit = viewModel.habits.first.unsafelyUnwrapped
   let today = Date()
   let month = viewModel.utils.month(for: today)
   let year = viewModel.utils.year(for: today)
 
   return MonthView(
-    habitID: viewModel.habits.first.unsafelyUnwrapped.key,
+    habitID: firstHabit.key,
     month: month,
     year: year)
     .environmentObject(viewModel)
+}
+
+// MARK: - DaySheet
+
+struct DaySheet: View {
+  @Binding var isPresented: Bool
+  let name: String
+
+  var body: some View {
+    Text("Info about individual day")
+    Button("Close") {
+      isPresented = false
+    }
+  }
+}
+
+struct DayModel: Identifiable {
+  let id = UUID()
+  let day: Int
+  let note: String?
+  let date: Date
 }
