@@ -20,8 +20,6 @@ struct MonthView: View {
 
   // MARK: Internal
 
-  @EnvironmentObject var viewModel: HabitViewModel
-
   var body: some View {
     Text(monthName + " \(year)")
       .foregroundStyle(.secondary)
@@ -56,14 +54,34 @@ struct MonthView: View {
               }
             }
             .onLongPressGesture {
-              print("xxx", date, viewModel.habits[habitID]?.note(for: date))
+              selectedDayModel = DayModel(
+                id: habitID,
+                day: day,
+                note: viewModel.habits[habitID]?.note(for: date),
+                date: date)
             }
         }
       }
     }
+    .sheet(item: $selectedDayModel) { dayModel in
+      addNotSheetContent(dayModel: dayModel)
+    }
   }
 
   // MARK: Private
+
+  private struct DayModel: Identifiable {
+    let id: UUID
+    let day: Int
+    let note: String?
+    let date: Date
+  }
+
+  @State private var noteText = ""
+  @State private var showingNoteSheet = false
+  @State private var selectedDayModel: DayModel? = nil
+
+  @EnvironmentObject private var viewModel: HabitViewModel
 
   private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
   private let habitID: UUID
@@ -102,6 +120,37 @@ struct MonthView: View {
   private func fillColor() -> Color {
     guard let habit = viewModel.habits[habitID] else { return .green }
     return habit.color
+  }
+
+  @ViewBuilder
+  private func addNotSheetContent(dayModel: DayModel) -> some View {
+    NavigationStack {
+      VStack {
+        Text(String(describing: dayModel.date))
+
+        TextField("Add notes", text: $noteText, axis: .vertical)
+          .padding()
+          .overlay(content: {
+            RoundedRectangle(cornerRadius: 10)
+              .stroke(Color(.label))
+          })
+          .padding()
+          .onAppear {
+            noteText = dayModel.note ?? ""
+          }
+          .onChange(of: noteText) { newValue in
+            viewModel.updateNote(habitID: dayModel.id, date: dayModel.date, note: newValue)
+          }
+      }
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button("Done") {
+            selectedDayModel = nil
+          }
+        }
+      }
+    }
+    .presentationDetents([.medium])
   }
 
 }
