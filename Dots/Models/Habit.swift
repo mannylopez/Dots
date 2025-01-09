@@ -6,18 +6,22 @@ import SwiftUI
 
 struct Habit: Identifiable, Hashable {
 
+  private let utils = CalendarUtils.shared
+
   // MARK: Lifecycle
 
   init(
     id: UUID = UUID(),
     name: String,
     color: Color,
-    completedDates: Set<Date> = [])
+    completedDates: Set<Date> = [],
+    notes: [Date: String] = [:])
   {
     self.id = id
     self.name = name
     self.color = color
     self.completedDates = completedDates
+    self.notes = notes
     creationDate = Date()
   }
 
@@ -28,9 +32,32 @@ struct Habit: Identifiable, Hashable {
   var color: Color
   var completedDates: Set<Date>
   let creationDate: Date
+  var notes: [Date: String]
 
   func isCompleted(for date: Date) -> Bool {
-    let calendar = Calendar.current
-    return completedDates.contains { calendar.isDate($0, inSameDayAs: date) }
+    completedDates.contains { utils.isDate($0, inSameDayAs: date) }
+  }
+
+  func note(for date: Date) -> String? {
+    let normalizedDate = utils.startOfDay(for: date)
+    return notes.first(where: { utils.isDate($0.key, inSameDayAs: normalizedDate) })?.value
+  }
+}
+
+extension Habit: Equatable {
+  static func == (lhs: Habit, rhs: Habit) -> Bool {
+    lhs.id == rhs.id &&
+    lhs.name == rhs.name &&
+    lhs.completedDates == rhs.completedDates &&
+    lhs.creationDate == rhs.creationDate &&
+    lhs.notes == rhs.notes
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+    hasher.combine(name)
+    hasher.combine(completedDates)
+    hasher.combine(creationDate)
+    hasher.combine(notes)
   }
 }

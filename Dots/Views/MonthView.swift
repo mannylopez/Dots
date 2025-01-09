@@ -55,6 +55,9 @@ struct MonthView: View {
                 UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
               }
             }
+            .onLongPressGesture {
+              print("xxx", date, viewModel.habits[habitID]?.note(for: date))
+            }
         }
       }
     }
