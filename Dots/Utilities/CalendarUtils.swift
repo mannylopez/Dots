@@ -46,6 +46,16 @@ final class CalendarUtils {
     calendar.component(.day, from: Date())
   }
 
+  func isDate(_ date1: Date, inSameDayAs date2: Date) -> Bool {
+    let start1 = startOfDay(for: date1)
+    let start2 = startOfDay(for: date2)
+    return calendar.isDate(start1, inSameDayAs: start2)
+  }
+
+  func startOfDay(for date: Date) -> Date {
+    calendar.startOfDay(for: date)
+  }
+
   func monthName(month: Int) -> String {
     var components = DateComponents()
     components.month = month
@@ -69,6 +79,14 @@ final class CalendarUtils {
     calendar.isDateInToday(date)
   }
 
+  /// Creates a date set to the start of the specified day.
+  ///
+  /// - Parameters:
+  ///   - year: The year component
+  ///   - month: The month component (1-12)
+  ///   - day: The day component
+  /// - Returns: A date object set to 00:00:00 of the specified day
+  /// - Important: Time components are automatically set to the start of day (00:00:00)
   func createDate(year: Int, month: Int, day: Int) -> Date {
     var components = DateComponents()
     components.year = year

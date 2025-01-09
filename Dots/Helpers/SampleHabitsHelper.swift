@@ -51,6 +51,19 @@ enum SampleHabitsHelper {
     }
   }
 
+  private static let sampleNotes = [
+    "Felt great today! 💪",
+    "Need to improve tomorrow 📝",
+    "Making progress slowly but surely 🌱",
+    "Skipped yesterday but back on track today 🎯",
+    "Best session so far! 🌟",
+    "Struggled a bit but got it done ✅",
+    "Really enjoying this habit 😊",
+    "Need more consistency 🔄",
+    "Perfect form today 👌",
+    "Getting easier each day 📈",
+  ]
+
   private static func createHabit(
     name: String,
     consistency: Consistency,
@@ -59,6 +72,7 @@ enum SampleHabitsHelper {
   {
     let calendar = Calendar.current
     var dates = Set<Date>()
+    var notes: [Date: String] = [:]
 
     // Create date components
     var components = DateComponents()
@@ -72,16 +86,22 @@ enum SampleHabitsHelper {
       for day in 1...28 {
         components.day = day
 
+        // Add random time components
+        components.hour = Int.random(in: 0...23)
+        components.minute = Int.random(in: 0...59)
+        components.second = Int.random(in: 0...59)
+
         // Randomly complete based on consistency
         if
           Double.random(in: 0...1) < consistency.completionRate,
           let date = calendar.date(from: components)
         {
           dates.insert(date)
+          notes[date] = sampleNotes.randomElement()
         }
       }
     }
 
-    return Habit(name: name, color: Color.green.opacity(0.4), completedDates: dates)
+    return Habit(name: name, color: Color.green.opacity(0.4), completedDates: dates, notes: notes)
   }
 }

@@ -70,5 +70,5 @@ struct RowContent: View {
     habitID: viewModel.habitList.first!.id,
     month: viewModel.utils.month(for: today),
     year: viewModel.utils.year(for: today))
-  .environmentObject(viewModel)
+    .environmentObject(viewModel)
 }

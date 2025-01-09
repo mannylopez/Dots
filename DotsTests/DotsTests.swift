@@ -93,12 +93,6 @@ final class DotsTests: XCTestCase {
     XCTAssertEqual(firstDay, 0)
   }
 
-  // TODO: Refactor this
-  func test_dayToday() {
-    let utils = CalendarUtils.shared
-    XCTAssertEqual(utils.dayToday(), 28)
-  }
-
   func test_monthName() {
     let utils = CalendarUtils.shared
     XCTAssertEqual(utils.monthName(month: 1), "January")
