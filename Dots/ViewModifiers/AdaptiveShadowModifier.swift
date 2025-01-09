@@ -2,6 +2,8 @@
 
 import SwiftUI
 
+// MARK: - AdaptiveShadow
+
 struct AdaptiveShadow: ViewModifier {
   @Environment(\.colorScheme) private var colorScheme
 
@@ -24,12 +26,13 @@ extension View {
     radius: CGFloat = 8,
     x: CGFloat = 0,
     y: CGFloat = 4,
-    opacity: CGFloat = 0.3) -> some View
+    opacity: CGFloat = 0.3)
+    -> some View
   {
-      self.modifier(AdaptiveShadow(
-        radius: radius,
-        x: x,
-        y: y,
-        opacity: opacity))
+    modifier(AdaptiveShadow(
+      radius: radius,
+      x: x,
+      y: y,
+      opacity: opacity))
   }
 }

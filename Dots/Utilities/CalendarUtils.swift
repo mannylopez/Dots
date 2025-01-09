@@ -47,13 +47,13 @@ final class CalendarUtils {
   }
 
   func isDate(_ date1: Date, inSameDayAs date2: Date) -> Bool {
-      let start1 = startOfDay(for: date1)
-      let start2 = startOfDay(for: date2)
-      return calendar.isDate(start1, inSameDayAs: start2)
+    let start1 = startOfDay(for: date1)
+    let start2 = startOfDay(for: date2)
+    return calendar.isDate(start1, inSameDayAs: start2)
   }
 
   func startOfDay(for date: Date) -> Date {
-      calendar.startOfDay(for: date)
+    calendar.startOfDay(for: date)
   }
 
   func monthName(month: Int) -> String {

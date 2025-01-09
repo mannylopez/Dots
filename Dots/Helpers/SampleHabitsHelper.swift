@@ -10,24 +10,24 @@ enum SampleHabitsHelper {
 
   static func generate() -> [Habit] {
     [
-//      createHabit(
-//        name: "Morning Stretch",
-//        consistency: .high),
-//      createHabit(
-//        name: "Meditation",
-//        consistency: .medium),
+      createHabit(
+        name: "Morning Stretch",
+        consistency: .high),
+      createHabit(
+        name: "Meditation",
+        consistency: .medium),
       createHabit(
         name: "Read 30 mins",
         consistency: .low),
-//      createHabit(
-//        name: "Drink Water",
-//        consistency: .veryHigh),
-//      createHabit(
-//        name: "Super long long name for habit - low",
-//        consistency: .low),
-//      createHabit(
-//        name: "Walk the dog - complete",
-//        consistency: .complete),
+      createHabit(
+        name: "Drink Water",
+        consistency: .veryHigh),
+      createHabit(
+        name: "Super long long name for habit - low",
+        consistency: .low),
+      createHabit(
+        name: "Walk the dog - complete",
+        consistency: .complete),
     ]
   }
 

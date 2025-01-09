@@ -6,8 +6,6 @@ import SwiftUI
 
 struct Habit: Identifiable, Hashable {
 
-  private let utils = CalendarUtils.shared
-
   // MARK: Lifecycle
 
   init(
@@ -42,15 +40,22 @@ struct Habit: Identifiable, Hashable {
     let normalizedDate = utils.startOfDay(for: date)
     return notes.first(where: { utils.isDate($0.key, inSameDayAs: normalizedDate) })?.value
   }
+
+  // MARK: Private
+
+  private let utils = CalendarUtils.shared
+
 }
 
+// MARK: Equatable
+
 extension Habit: Equatable {
-  static func == (lhs: Habit, rhs: Habit) -> Bool {
+  static func ==(lhs: Habit, rhs: Habit) -> Bool {
     lhs.id == rhs.id &&
-    lhs.name == rhs.name &&
-    lhs.completedDates == rhs.completedDates &&
-    lhs.creationDate == rhs.creationDate &&
-    lhs.notes == rhs.notes
+      lhs.name == rhs.name &&
+      lhs.completedDates == rhs.completedDates &&
+      lhs.creationDate == rhs.creationDate &&
+      lhs.notes == rhs.notes
   }
 
   func hash(into hasher: inout Hasher) {
