@@ -60,15 +60,15 @@ struct RowContent: View {
   }
 }
 
-//#Preview {
-//  let title = "Physical therapy exercises"
-//  let viewModel = HabitViewModel()
-//  let today = Date()
-//
-//  HabitRow(
-//    title: title,
-//    habitID: viewModel.habitList.first!.id,
-//    month: viewModel.utils.month(for: today),
-//    year: viewModel.utils.year(for: today))
-//    .environmentObject(viewModel)
-//}
+#Preview {
+  let title = "Physical therapy exercises"
+  let viewModel = HabitViewModel.preview
+  let today = Date()
+
+  HabitRow(
+    title: title,
+    habitID: viewModel.habitList.first!.id,
+    month: viewModel.utils.month(for: today),
+    year: viewModel.utils.year(for: today))
+    .environmentObject(viewModel)
+}

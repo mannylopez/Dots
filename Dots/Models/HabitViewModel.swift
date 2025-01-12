@@ -235,3 +235,23 @@ extension HabitViewModel {
     }
   }
 }
+
+#if DEBUG
+
+// MARK: - HabitViewModel + SwiftUI Preview
+
+extension HabitViewModel {
+  static var preview: HabitViewModel {
+    let container = NSPersistentContainer(name: "HabitTracker")
+    container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+
+    container.loadPersistentStores { _, error in
+      if let error {
+        fatalError("Error: \(error.localizedDescription)")
+      }
+    }
+
+    return HabitViewModel(context: container.viewContext, debugMode: true)
+  }
+}
+#endif

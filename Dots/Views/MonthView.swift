@@ -1,5 +1,6 @@
 // Created by manny_lopez on 12/25/24.
 
+import CoreData
 import SwiftUI
 
 // MARK: - MonthView
@@ -150,15 +151,15 @@ struct MonthView: View {
 
 }
 
-//#Preview {
-//  let viewModel = HabitViewModel()
-//  let today = Date()
-//  let month = viewModel.utils.month(for: today)
-//  let year = viewModel.utils.year(for: today)
-//
-//  return MonthView(
-//    habitID: viewModel.habits.first.unsafelyUnwrapped.key,
-//    month: month,
-//    year: year)
-//    .environmentObject(viewModel)
-//}
+#Preview {
+  let viewModel = HabitViewModel.preview
+  let today = Date()
+  let month = viewModel.utils.month(for: today)
+  let year = viewModel.utils.year(for: today)
+
+  MonthView(
+    habitID: viewModel.habits.first.unsafelyUnwrapped.key,
+    month: month,
+    year: year)
+    .environmentObject(viewModel)
+}

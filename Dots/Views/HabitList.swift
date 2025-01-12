@@ -79,8 +79,8 @@ struct HabitList: View {
 
 }
 
-//#Preview {
-//  let viewModel = HabitViewModel()
-//  return HabitList()
-//    .environmentObject(viewModel)
-//}
+#Preview {
+  let viewModel = HabitViewModel.preview
+  return HabitList()
+    .environmentObject(viewModel)
+}
