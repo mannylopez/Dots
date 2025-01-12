@@ -157,13 +157,13 @@ struct CalendarView: View {
 
 }
 
-#Preview {
-  let viewModel = HabitViewModel()
-  let today = Date()
-  CalendarView(
-    habit: viewModel.habitList.first!,
-    currentMonth: viewModel.utils.month(for: today),
-    currentYear: viewModel.utils.year(for: today),
-    dismissToRoot: { })
-    .environmentObject(viewModel)
-}
+//#Preview {
+//  let viewModel = HabitViewModel()
+//  let today = Date()
+//  CalendarView(
+//    habit: viewModel.habitList.first!,
+//    currentMonth: viewModel.utils.month(for: today),
+//    currentYear: viewModel.utils.year(for: today),
+//    dismissToRoot: { })
+//    .environmentObject(viewModel)
+//}

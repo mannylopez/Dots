@@ -4,12 +4,13 @@ import SwiftUI
 
 @main
 struct DotsApp: App {
-  @StateObject private var viewModel = HabitViewModel()
+  @StateObject private var dataController = DataController.shared
 
   var body: some Scene {
     WindowGroup {
       HabitList()
-        .environmentObject(viewModel)
+        .environment(\.managedObjectContext, dataController.persistentContainer.viewContext)
+        .environmentObject(HabitViewModel(context: dataController.persistentContainer.viewContext))
     }
   }
 }
