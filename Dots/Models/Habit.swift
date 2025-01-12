@@ -32,22 +32,13 @@ struct Habit: Identifiable, Hashable {
   let creationDate: Date
   var notes: [Date: String]
 
-  func isCompleted(for date: Date) -> Bool {
-    completedDates.contains { utils.isDate($0, inSameDayAs: date) }
-  }
-
-  func note(for date: Date) -> String? {
-    let normalizedDate = utils.startOfDay(for: date)
-    return notes.first(where: { utils.isDate($0.key, inSameDayAs: normalizedDate) })?.value
-  }
-
   // MARK: Private
 
   private let utils = CalendarUtils.shared
 
 }
 
-// MARK: Equatable
+// MARK: Habit + Equatable
 
 extension Habit: Equatable {
   static func ==(lhs: Habit, rhs: Habit) -> Bool {
@@ -65,4 +56,44 @@ extension Habit: Equatable {
     hasher.combine(creationDate)
     hasher.combine(notes)
   }
+}
+
+// MARK: Habit + Codable
+
+extension Habit: Codable {
+
+  // MARK: Lifecycle
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    id = try container.decode(UUID.self, forKey: .id)
+    name = try container.decode(String.self, forKey: .name)
+    let hexColor = try container.decode(String.self, forKey: .color)
+    color = Color(hex: hexColor)
+    completedDates = try container.decode(Set<Date>.self, forKey: .completedDates)
+    creationDate = try container.decode(Date.self, forKey: .creationDate)
+    notes = try container.decode([Date: String].self, forKey: .notes)
+  }
+
+  // MARK: Internal
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case name
+    case color
+    case creationDate
+    case completedDates
+    case notes
+  }
+
+  func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encode(id, forKey: .id)
+    try container.encode(name, forKey: .name)
+    try container.encode(color.toHex(), forKey: .color)
+    try container.encode(completedDates, forKey: .completedDates)
+    try container.encode(creationDate, forKey: .creationDate)
+    try container.encode(notes, forKey: .notes)
+  }
+
 }

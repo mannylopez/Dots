@@ -158,7 +158,7 @@ struct CalendarView: View {
 }
 
 #Preview {
-  let viewModel = HabitViewModel()
+  let viewModel = HabitViewModel.preview
   let today = Date()
   CalendarView(
     habit: viewModel.habitList.first!,

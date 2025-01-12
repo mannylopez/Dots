@@ -80,7 +80,7 @@ struct HabitList: View {
 }
 
 #Preview {
-  let viewModel = HabitViewModel()
+  let viewModel = HabitViewModel.preview
   return HabitList()
     .environmentObject(viewModel)
 }

@@ -62,7 +62,7 @@ struct RowContent: View {
 
 #Preview {
   let title = "Physical therapy exercises"
-  let viewModel = HabitViewModel()
+  let viewModel = HabitViewModel.preview
   let today = Date()
 
   HabitRow(

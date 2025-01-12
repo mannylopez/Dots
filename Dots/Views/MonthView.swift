@@ -1,5 +1,6 @@
 // Created by manny_lopez on 12/25/24.
 
+import CoreData
 import SwiftUI
 
 // MARK: - MonthView
@@ -41,7 +42,7 @@ struct MonthView: View {
 
         ForEach(days, id: \.self) { day in
           let date = createDate(using: day)
-          let isCompleted = isCompleted(date: date)
+          let isCompleted = viewModel.isCompleted(date: date, habitID: habitID)
           DateView(
             date: day,
             isCompleted: isCompleted,
@@ -57,7 +58,7 @@ struct MonthView: View {
               selectedDayModel = DayModel(
                 id: habitID,
                 day: day,
-                note: viewModel.habits[habitID]?.note(for: date),
+                note: viewModel.note(for: date, habitID: habitID),
                 date: date)
             }
         }
@@ -108,11 +109,6 @@ struct MonthView: View {
     viewModel.utils.createDate(year: year, month: month, day: day)
   }
 
-  private func isCompleted(date: Date) -> Bool {
-    guard let habit = viewModel.habits[habitID] else { return false }
-    return habit.isCompleted(for: date)
-  }
-
   private func isToday(date: Date) -> Bool {
     viewModel.utils.isToday(date: date)
   }
@@ -156,12 +152,12 @@ struct MonthView: View {
 }
 
 #Preview {
-  let viewModel = HabitViewModel()
+  let viewModel = HabitViewModel.preview
   let today = Date()
   let month = viewModel.utils.month(for: today)
   let year = viewModel.utils.year(for: today)
 
-  return MonthView(
+  MonthView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
     month: month,
     year: year)
