@@ -3,9 +3,9 @@
 import CoreData
 import SwiftUI
 
-// MARK: - MonthView
+// MARK: - WeekView
 
-struct MonthView: View {
+struct WeekView: View {
 
   // MARK: Lifecycle
 
@@ -22,9 +22,6 @@ struct MonthView: View {
   // MARK: Internal
 
   var body: some View {
-    Text(monthName + " \(year)")
-      .foregroundStyle(.secondary)
-      .padding(.top, 20)
     VStack {
       LazyVGrid(columns: columns) {
         ForEach(["Su", "M", "T", "W", "Th", "F", "Sa"], id: \.self) { day in
@@ -35,11 +32,6 @@ struct MonthView: View {
       }
 
       LazyVGrid(columns: columns) {
-        ForEach(0..<startOffset, id: \.self) { _ in
-          Text("")
-            .foregroundStyle(.secondary)
-        }
-
         ForEach(days, id: \.self) { day in
           let date = createDate(using: day)
           let isCompleted = viewModel.isCompleted(date: date, habitID: habitID)
@@ -64,8 +56,9 @@ struct MonthView: View {
         }
       }
     }
+    .padding(.top, 20)
     .sheet(item: $selectedDayModel) { dayModel in
-      addNotSheetContent(dayModel: dayModel)
+      addNoteSheetContent(dayModel: dayModel)
     }
   }
 
@@ -89,16 +82,9 @@ struct MonthView: View {
   private let month: Int
   private let year: Int
 
-  private var days: Range<Int> {
-    viewModel.utils.daysInMonth(month: month, year: year)
-  }
-
-  private var startOffset: Int {
-    viewModel.utils.firstDayOfMonth(month: month, year: year)
-  }
-
-  private var monthName: String {
-    viewModel.utils.monthName(month: month)
+  private var days: [Int] {
+    let date = Date()
+    return viewModel.utils.daysInCurrentWeek(from: date)
   }
 
   private func createDate(using day: Int) -> Date {
@@ -115,7 +101,7 @@ struct MonthView: View {
   }
 
   @ViewBuilder
-  private func addNotSheetContent(dayModel: DayModel) -> some View {
+  private func addNoteSheetContent(dayModel: DayModel) -> some View {
     NavigationStack {
       VStack {
         Text(String(describing: dayModel.date))
@@ -153,7 +139,7 @@ struct MonthView: View {
   let month = viewModel.utils.month(for: today)
   let year = viewModel.utils.year(for: today)
 
-  MonthView(
+  WeekView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
     month: month,
     year: year)
