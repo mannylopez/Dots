@@ -24,6 +24,7 @@ class HabitViewModel: ObservableObject {
   // MARK: Internal
 
   @Published var habits: [UUID: Habit]
+  @Published var isWesternNumeral: Bool = true
 
   let utils = CalendarUtils.shared
 
@@ -236,8 +237,6 @@ extension HabitViewModel {
   }
 }
 
-#if DEBUG
-
 // MARK: - HabitViewModel + SwiftUI Preview
 
 extension HabitViewModel {
@@ -254,4 +253,3 @@ extension HabitViewModel {
     return HabitViewModel(context: container.viewContext, debugMode: true)
   }
 }
-#endif
