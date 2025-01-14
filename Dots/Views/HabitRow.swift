@@ -53,7 +53,7 @@ struct RowContent: View {
       .padding(.top, 20)
       .padding(.bottom, habitID != nil ? -20 : 0)
       if let habitID {
-        MonthView(habitID: habitID, month: month, year: year)
+        WeekView(habitID: habitID, month: month, year: year)
       }
     }
     .padding(.bottom, 24)
