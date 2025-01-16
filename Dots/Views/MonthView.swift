@@ -35,9 +35,10 @@ struct MonthView: View {
       }
 
       LazyVGrid(columns: columns) {
-        ForEach(0..<startOffset, id: \.self) { _ in
+        ForEach(0..<startOffset, id: \.self) { index in
           Text("")
             .foregroundStyle(.secondary)
+            .id("\(monthIdentifier)-offset-\(index)-\(UUID())")
         }
 
         ForEach(days, id: \.self) { day in
@@ -48,6 +49,7 @@ struct MonthView: View {
             isCompleted: isCompleted,
             addBorder: isToday(date: date),
             fillColor: fillColor())
+          .id("\(monthIdentifier)-offset-\(day)")
             .onTapGesture {
               viewModel.toggleHabit(habitID: habitID, date: date)
               if !isCompleted {
@@ -88,6 +90,10 @@ struct MonthView: View {
   private let habitID: UUID
   private let month: Int
   private let year: Int
+
+  private var monthIdentifier: String {
+        "\(year)-\(month)"
+    }
 
   private var days: Range<Int> {
     viewModel.utils.daysInMonth(month: month, year: year)
