@@ -17,7 +17,6 @@ struct HabitList: View {
               HabitRow(
                 title: habit.name,
                 habitID: habit.id,
-                month: currentMonth,
                 year: currentYear)
                 .onTapGesture {
                   navigationPath.append(habit)

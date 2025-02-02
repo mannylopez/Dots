@@ -7,14 +7,12 @@ import SwiftUI
 struct HabitRow: View {
   let title: String
   let habitID: UUID?
-  let month: Int
   let year: Int
 
   var body: some View {
     RowContent(
       title: title,
       habitID: habitID,
-      month: month,
       year: year)
       .frame(
         maxWidth: .infinity,
@@ -36,7 +34,6 @@ struct HabitRow: View {
 struct RowContent: View {
   let title: String
   let habitID: UUID?
-  let month: Int
   let year: Int
 
   var body: some View {
@@ -53,7 +50,7 @@ struct RowContent: View {
       .padding(.top, 20)
       .padding(.bottom, habitID != nil ? -20 : 0)
       if let habitID {
-        WeekView(habitID: habitID, month: month, year: year)
+        WeekView(habitID: habitID, year: year)
       }
     }
     .padding(.bottom, 24)
@@ -68,7 +65,6 @@ struct RowContent: View {
   HabitRow(
     title: title,
     habitID: viewModel.habitList.first!.id,
-    month: viewModel.utils.month(for: today),
     year: viewModel.utils.year(for: today))
     .environmentObject(viewModel)
 }
