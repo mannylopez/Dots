@@ -17,6 +17,7 @@ struct AddHabitSheet: View {
         colorPicker(color: $color)
         goalNameTextField()
         Toggle("Western numbers", isOn: $viewModel.isWesternNumeral)
+        ExportDataView(habitViewModel: viewModel)
       }
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
