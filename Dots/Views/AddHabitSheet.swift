@@ -16,6 +16,8 @@ struct AddHabitSheet: View {
       Form {
         colorPicker(color: $color)
         goalNameTextField()
+        Toggle("Western numbers", isOn: $viewModel.isWesternNumeral)
+        ExportDataView(habitViewModel: viewModel)
       }
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
@@ -71,9 +73,11 @@ struct AddHabitSheet: View {
 #Preview {
   struct PreviewWrapper: View {
     @State var isPresented = true
+    let viewModel = HabitViewModel.preview
 
     var body: some View {
       AddHabitSheet(isPresented: $isPresented)
+        .environmentObject(viewModel)
     }
   }
   return PreviewWrapper()

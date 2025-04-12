@@ -50,7 +50,7 @@ final class CalendarUtils {
   ///           Returns an empty array if the week calculation fails.
   /// - Note: The returned array always contains exactly 7 numbers, representing Sunday through Saturday
   ///         by default, based on the calendar's configuration.
-  func daysInCurrentWeek(from date: Date) -> [Int] {
+  func daysInCurrentWeek(from date: Date) -> [(month: Int, day: Int )] {
     guard
       let startOfWeek = calendar.date(
         from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))
@@ -58,7 +58,7 @@ final class CalendarUtils {
       return []
     }
 
-    var days: [Int] = []
+    var dates: [(month: Int, day: Int )] = []
 
     // Add 7 days starting from the start of week
     for dayOffset in 0...6 {
@@ -70,10 +70,11 @@ final class CalendarUtils {
       else { continue }
 
       let dayComponent = calendar.component(.day, from: date)
-      days.append(dayComponent)
+      let monthComponent = calendar.component(.month, from: date)
+      dates.append((monthComponent, dayComponent))
     }
 
-    return days
+    return dates
   }
 
   // TODO: Refactor this

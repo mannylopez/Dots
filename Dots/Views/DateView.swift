@@ -9,6 +9,9 @@ struct DateView: View {
   let isCompleted: Bool
   let addBorder: Bool
   let fillColor: Color
+  var isWesternNumeral = false
+
+  @EnvironmentObject private var viewModel: HabitViewModel
 
   var body: some View {
     ZStack {
@@ -17,8 +20,7 @@ struct DateView: View {
           .foregroundStyle(fillColor)
           .frame(width: 23)
       }
-//      Text(date.toArabicNumeral())
-      Text("\(date)")
+      Text(viewModel.isWesternNumeral ? "\(date)" : date.toArabicNumeral())
         .frame(width: 25, height: 25)
         .overlay {
           Circle()
@@ -29,7 +31,9 @@ struct DateView: View {
 }
 
 #Preview {
+  let viewModel = HabitViewModel.preview
   DateView(date: 7, isCompleted: true, addBorder: true, fillColor: .green)
+    .environmentObject(viewModel)
 }
 
 extension Int {

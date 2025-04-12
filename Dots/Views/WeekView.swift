@@ -11,11 +11,9 @@ struct WeekView: View {
 
   init(
     habitID: UUID,
-    month: Int,
     year: Int)
   {
     self.habitID = habitID
-    self.month = month
     self.year = year
   }
 
@@ -32,11 +30,11 @@ struct WeekView: View {
       }
 
       LazyVGrid(columns: columns) {
-        ForEach(days, id: \.self) { day in
-          let date = createDate(using: day)
+        ForEach(weekDays, id: \.self) { weekDay in
+          let date = createDate(using: weekDay)
           let isCompleted = viewModel.isCompleted(date: date, habitID: habitID)
           DateView(
-            date: day,
+            date: weekDay.day,
             isCompleted: isCompleted,
             addBorder: isToday(date: date),
             fillColor: fillColor())
@@ -49,7 +47,7 @@ struct WeekView: View {
             .onLongPressGesture {
               selectedDayModel = DayModel(
                 id: habitID,
-                day: day,
+                day: weekDay.day,
                 note: viewModel.note(for: date, habitID: habitID),
                 date: date)
             }
@@ -71,6 +69,11 @@ struct WeekView: View {
     let date: Date
   }
 
+  private struct WeekDay: Hashable {
+    let month: Int
+    let day: Int
+  }
+
   @State private var noteText = ""
   @State private var showingNoteSheet = false
   @State private var selectedDayModel: DayModel? = nil
@@ -79,16 +82,20 @@ struct WeekView: View {
 
   private let columns: [GridItem] = Array(repeating: GridItem(.fixed(25)), count: 7)
   private let habitID: UUID
-  private let month: Int
   private let year: Int
 
-  private var days: [Int] {
+  private var weekDays: [WeekDay] {
     let date = Date()
-    return viewModel.utils.daysInCurrentWeek(from: date)
+    print(viewModel.utils.daysInCurrentWeek(from: date).map {
+      WeekDay(month: $0, day: $1)
+    })
+    return viewModel.utils.daysInCurrentWeek(from: date).map {
+      WeekDay(month: $0, day: $1)
+    }
   }
 
-  private func createDate(using day: Int) -> Date {
-    viewModel.utils.createDate(year: year, month: month, day: day)
+  private func createDate(using weekDay: WeekDay) -> Date {
+    viewModel.utils.createDate(year: year, month: weekDay.month, day: weekDay.day)
   }
 
   private func isToday(date: Date) -> Bool {
@@ -136,12 +143,10 @@ struct WeekView: View {
 #Preview {
   let viewModel = HabitViewModel.preview
   let today = Date()
-  let month = viewModel.utils.month(for: today)
   let year = viewModel.utils.year(for: today)
 
   WeekView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
-    month: month,
     year: year)
     .environmentObject(viewModel)
 }

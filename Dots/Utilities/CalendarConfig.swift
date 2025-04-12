@@ -4,9 +4,11 @@ import Foundation
 
 enum CalendarConfig {
   static let calendar: Calendar = {
-    var calendar = Calendar.current
+    var calendar = Calendar(identifier: .gregorian)
     calendar.locale = .current
     calendar.timeZone = .current
+    // Ensure first weekday is Sunday (1)
+    calendar.firstWeekday = 1
     return calendar
   }()
 
