@@ -73,13 +73,6 @@ struct MonthView: View {
 
   // MARK: Private
 
-  private struct DayModel: Identifiable {
-    let id: UUID
-    let day: Int
-    let note: String?
-    let date: Date
-  }
-
   @State private var noteText = ""
   @State private var showingNoteSheet = false
   @State private var selectedDayModel: DayModel? = nil
