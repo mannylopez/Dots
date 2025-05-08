@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DayModel: Identifiable {
+struct DayModel: Identifiable, Equatable {
   let id: UUID
   let day: Int
   let note: String?

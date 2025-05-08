@@ -25,16 +25,37 @@ struct HabitDetailView: View {
       MonthView(
         habitID: habit.id,
         month: month,
-        year: year)
+        year: year) { localDay in
+          day = localDay
+          selectedDayModel = DayModel(
+            id: habit.id,
+            day: day,
+            note: viewModel.note(
+              for: createDate(using: day),
+              habitID: habit.id),
+            date: createDate(using: day))
+          
+//          if let note = selectedDayModel?.note {
+//            
+//            noteText = note
+//          }
+        }
       
-      addNotSheetContent(
-        dayModel: DayModel(
-          id: habit.id,
-          day: 5,
-          note: viewModel.note(
-            for: createDate(using: 5),
-            habitID: habit.id),
-          date: createDate(using: 5)))
+      if let selectedDayModel {
+        
+        addNotSheetContent(
+          dayModel: selectedDayModel)
+        .padding(.top, 16)
+      }
+    }
+    .onAppear {
+      let today = Date()
+      let dayToday = viewModel.utils.day(for: today)
+      selectedDayModel = DayModel(
+        id: habit.id,
+        day: dayToday,
+        note: viewModel.note(for: today, habitID: habit.id),
+        date: today)
     }
   }
   
@@ -42,40 +63,37 @@ struct HabitDetailView: View {
   private var month: Int
   private let year: Int
   
+  
+  
+  @State private var day: Int = 1
   @State private var noteText = ""
-  @State private var selectedDayModel: DayModel? = nil
+  @State private var selectedDayModel: DayModel?
   
   @EnvironmentObject private var viewModel: HabitViewModel
   
-  @ViewBuilder
+  
   private func addNotSheetContent(dayModel: DayModel) -> some View {
-    NavigationStack {
-      VStack {
-        Text(String(describing: dayModel.date))
-
-        TextField("Add notes", text: $noteText, axis: .vertical)
-          .padding()
-          .overlay(content: {
-            RoundedRectangle(cornerRadius: 10)
-              .stroke(Color(.label))
-          })
-          .padding()
-          .onAppear {
-            noteText = dayModel.note ?? ""
-          }
-          .onChange(of: noteText) { newValue in
-            viewModel.updateNote(habitID: dayModel.id, date: dayModel.date, note: newValue)
-          }
-      }
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button("Done") {
-            selectedDayModel = nil
-          }
+    VStack {
+      Text(String(describing: dayModel.date))
+      
+      TextField("Add notes", text: $noteText, axis: .vertical)
+        .padding()
+        .overlay(content: {
+          RoundedRectangle(cornerRadius: 10)
+            .stroke(Color(.label))
+        })
+        .padding()
+        .onAppear {
+          noteText = dayModel.note ?? ""
         }
-      }
+        .onChange(of: selectedDayModel) { newValue in
+          noteText = newValue?.note ?? ""
+        }
+        .onChange(of: noteText) { newValue in
+          viewModel.updateNote(habitID: dayModel.id, date: dayModel.date, note: newValue)
+        }
     }
-    .presentationDetents([.medium])
+    
   }
   
   private func createDate(using day: Int) -> Date {
