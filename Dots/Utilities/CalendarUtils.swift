@@ -112,6 +112,10 @@ final class CalendarUtils {
     return dateFormatter.string(from: date)
   }
 
+  func day(for date: Date) -> Int {
+    calendar.component(.day, from: date)
+  }
+  
   func month(for date: Date) -> Int {
     calendar.component(.month, from: date)
   }

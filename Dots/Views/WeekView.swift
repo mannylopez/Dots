@@ -62,13 +62,6 @@ struct WeekView: View {
 
   // MARK: Private
 
-  private struct DayModel: Identifiable {
-    let id: UUID
-    let day: Int
-    let note: String?
-    let date: Date
-  }
-
   private struct WeekDay: Hashable {
     let month: Int
     let day: Int

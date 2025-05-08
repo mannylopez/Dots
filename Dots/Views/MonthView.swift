@@ -12,11 +12,13 @@ struct MonthView: View {
   init(
     habitID: UUID,
     month: Int,
-    year: Int)
+    year: Int,
+    onTap: ( (Int) -> Void)? = nil)
   {
     self.habitID = habitID
     self.month = month
     self.year = year
+    self.onTap = onTap
   }
 
   // MARK: Internal
@@ -51,9 +53,12 @@ struct MonthView: View {
             fillColor: fillColor())
           .id("\(monthIdentifier)-offset-\(day)")
             .onTapGesture {
-              viewModel.toggleHabit(habitID: habitID, date: date)
-              if !isCompleted {
-                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+//              viewModel.toggleHabit(habitID: habitID, date: date)
+//              if !isCompleted {
+//                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+//              }
+              if let onTap {
+                onTap(day)
               }
             }
             .onLongPressGesture {
@@ -73,13 +78,6 @@ struct MonthView: View {
 
   // MARK: Private
 
-  private struct DayModel: Identifiable {
-    let id: UUID
-    let day: Int
-    let note: String?
-    let date: Date
-  }
-
   @State private var noteText = ""
   @State private var showingNoteSheet = false
   @State private var selectedDayModel: DayModel? = nil
@@ -90,6 +88,7 @@ struct MonthView: View {
   private let habitID: UUID
   private let month: Int
   private let year: Int
+  var onTap: ((Int) -> Void)?
 
   private var monthIdentifier: String {
         "\(year)-\(month)"
@@ -162,6 +161,8 @@ struct MonthView: View {
   MonthView(
     habitID: viewModel.habits.first.unsafelyUnwrapped.key,
     month: month,
-    year: year)
+    year: year, onTap: { day in
+      
+    })
     .environmentObject(viewModel)
 }

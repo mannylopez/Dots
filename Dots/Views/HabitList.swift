@@ -34,13 +34,15 @@ struct HabitList: View {
       }
       .navigationTitle("Goals")
       .navigationDestination(for: Habit.self) { habit in
-        CalendarView(
-          habit: habit,
-          currentMonth: currentMonth,
-          currentYear: currentYear,
-          dismissToRoot: {
-            navigationPath = NavigationPath()
-          })
+        HabitDetailView(habit: habit, month: currentMonth, year: currentYear)
+        
+//        CalendarView(
+//          habit: habit,
+//          currentMonth: currentMonth,
+//          currentYear: currentYear,
+//          dismissToRoot: {
+//            navigationPath = NavigationPath()
+//          })
       }
     }
     .sheet(isPresented: $showingAddHabit) {
